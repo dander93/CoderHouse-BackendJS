@@ -1,0 +1,15 @@
+const PRODUCTS_FILE_PATH = './Data/Products.json';
+const CARTS_FILE_PATH = './Data/Carts.json';
+const EXPRESS_DEFAULT_PORT = 8080;
+
+const EXPRESS_PRODUCTS_BASE_ROUTE = '/api/products';
+const EXPRESS_CARTS_BASE_ROUTE = '/api/carts';
+
+
+export {
+    PRODUCTS_FILE_PATH,
+    CARTS_FILE_PATH,
+    EXPRESS_DEFAULT_PORT,
+    EXPRESS_PRODUCTS_BASE_ROUTE,
+    EXPRESS_CARTS_BASE_ROUTE
+}
