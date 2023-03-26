@@ -11,6 +11,8 @@ route.get('/', async (request, response, next) => {
     try {
         response.render('home', {
             tittle: 'Home',
+            section_title: "Home",
+            section_title_description: "Pagina principal",
             products: await productMan.getProducts()
         });
     }

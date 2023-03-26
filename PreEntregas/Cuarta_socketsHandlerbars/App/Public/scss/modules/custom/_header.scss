@@ -20,10 +20,19 @@
     }
 }
 
-.nav-item{
+.nav-item {
     min-height: 42px;
 
-    .svg-inline--fa{
+    .svg-inline--fa {
         height: 1.5rem;
+    }
+}
+
+.title-container {
+    background: #6D676E87;
+
+    .section-title {
+        font-weight: 400;
+        text-shadow: 1px 1px 10px var(--darken-color);
     }
 }

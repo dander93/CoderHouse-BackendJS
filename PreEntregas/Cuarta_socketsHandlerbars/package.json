@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "clear && nodemon ./app.js",
-    "bcss": "node-sass --include-path App/Public/scss App/Public/scss/main.scss App/Public/css/styles.css",
-    "wcss": "nodemon -e scss -x \"npm run build-css\""
+    "bcss": "node-sass --include-path App/Public/scss App/Public/scss/main.scss App/Public/assets/css/styles.css",
+    "wcss": "nodemon -e scss -x \"npm run bcss\""
   },
   "type": "module",
   "author": "",

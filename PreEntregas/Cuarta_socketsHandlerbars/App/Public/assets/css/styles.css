@@ -18,7 +18,8 @@
   --bs-dark-rgb: 33, 37, 41;
   --bs-warning-rgb: var(--main-rgb-color);
   --bs-navbar-color: var(--main-rgb-color);
-  --main-font: 'Inter', sans-serif; }
+  --main-font: 'Inter', sans-serif;
+  --border-radius: 3px; }
 
 * {
   font-family: var(--main-font); }
@@ -176,6 +177,12 @@
   min-height: 42px; }
   .nav-item .svg-inline--fa {
     height: 1.5rem; }
+
+.title-container {
+  background: #6D676E87; }
+  .title-container .section-title {
+    font-weight: 400;
+    text-shadow: 1px 1px 10px var(--darken-color); }
 
 /*
  *  Modules - Custom - Footer

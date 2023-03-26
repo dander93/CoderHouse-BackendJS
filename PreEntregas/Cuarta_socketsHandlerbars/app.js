@@ -4,26 +4,45 @@ import * as constants from './App/Models/Constants.js';
 import { ProductsController, CartsController, HandlebarsController } from './App/Controllers/index.js'
 import { endpointLogger, exceptionHandlerMiddleware } from './App/Middlewares/index.js';
 
-
 const app = express();
 
+/*
+ * Middlewares
+ * */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(endpointLogger);
 
+//configura la carpeta de statics de express
+app.use(express.static(constants.APP_PUBLIC_PATH));
 
-app.engine('handlebars', handlebars.engine())
+/*
+ * Configuracion Handlebars
+ * */
+app.engine('handlebars', handlebars.engine({
+    partialsDir: constants.APP_PARTIAL_VIEWS_PATH
+}));
+
 app.set('views', constants.APP_VIEWS_PATH);
 app.set('view engine', 'handlebars');
-app.set(express.static(constants.APP_PUBLIC_PATH));
 
+
+
+/*
+ * Configuracion Rutas
+ * */
 app.use(constants.EXPRESS_PRODUCTS_BASE_ROUTE, ProductsController);
 app.use(constants.EXPRESS_CARTS_BASE_ROUTE, CartsController);
 app.use(constants.EXPRESS_HANDLEBARS_BASE_ROUTE, HandlebarsController);
 
+/*
+ * Middlewares que se ejecutan específicamente en el response luego de express
+ * */
 app.use(exceptionHandlerMiddleware);
 
+/*
+ * Inicio web server
+ * */
 app.listen(constants.EXPRESS_DEFAULT_PORT, () => {
     console.clear();
     console.log(`Servidor Inicializado`);
