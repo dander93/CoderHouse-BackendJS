@@ -7,15 +7,26 @@
     <nav id="nav-main-menu" class="navbar navbar-expand">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-end justify-content-between flex-wrap">
             <li class="nav-item">
-                <a href="/"
-                    class="nav-link active text-warning border-bottom border-warning fw-semibold">
-                    Home
-                </a>
+                {{#if (eq activeLink "home")}}
+                    <a href="/" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Home
+                    </a>
+                {{else}}
+                    <a href="/" class="nav-link">
+                        Home
+                    </a>
+                {{/if}}
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    Sockets
-                </a>
+                {{#if (eq activeLink "sockets")}}
+                    <a href="/realtimeproducts" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Sockets
+                    </a>
+                {{else}}
+                    <a href="/realtimeproducts" class="nav-link">
+                        Sockets
+                    </a>
+                {{/if}}
             </li>
         </ul>
     </nav>
