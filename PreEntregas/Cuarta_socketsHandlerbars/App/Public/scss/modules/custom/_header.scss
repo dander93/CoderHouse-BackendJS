@@ -1,0 +1,29 @@
+/*
+ *  Modules - Custom - Header
+ * */
+@import "../custom/animations";
+
+.navbar-brand {
+
+    .logo-image {
+        width: 90px;
+        height: 56px;
+    }
+
+    &:hover .logo-image {
+        animation: logo-animacion 2s infinite linear;
+    }
+
+    &:hover p {
+        text-shadow: 1px 1px 3px var(--main-color);
+        border-bottom: 1px dotted var(--main-color);
+    }
+}
+
+.nav-item{
+    min-height: 42px;
+
+    .svg-inline--fa{
+        height: 1.5rem;
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "socketshandlerbars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "clear && nodemon ./app.js",
+    "bcss": "node-sass --include-path App/Public/scss App/Public/scss/main.scss App/Public/css/styles.css",
+    "wcss": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.4",
+    "node-sass": "^8.0.0",
+    "socket.io": "^4.6.1"
+  }
+}

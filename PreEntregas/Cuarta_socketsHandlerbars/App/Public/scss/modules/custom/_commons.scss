@@ -1,0 +1,49 @@
+/*
+ *  Modules - Custom - Commons
+ * */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;500;800&display=swap');
+
+:root {
+    --main-color: #FAA916;
+    --light-color: #FBFFFE;
+    --main-bg-color: #6D676E;
+    --darken-color: #1B1B1E;
+    --darken-color-50: #1b1b1e80;
+    --danger-color: #96031A;
+
+    --main-rgb-color: 250, 169, 22;
+    --light-rgb-color: 251, 255, 254;
+    --main-bg-rgb-color: 109, 103, 110;
+    --darken-rgb-color: 27, 27, 30;
+    --darken-rgb-color-50: 27, 27, 30, .5;
+    --danger-rgb-color: 150, 3, 26;
+
+
+    --bs-dark-rgb: 33, 37, 41;
+    --bs-warning-rgb: var(--main-rgb-color);
+    --bs-navbar-color: var(--main-rgb-color);
+
+    --main-font: 'Inter', sans-serif;
+}
+
+* {
+    font-family: var(--main-font);
+}
+
+.vh-50 {
+    max-height: 50vh !important;
+}
+
+.personal-photo {
+    height: 150px;
+    width: 130px;
+}
+
+.text-shadow-dark {
+    text-shadow: 1px 1px 7px var(--darken-color) !important;
+}
+
+.background-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'><g fill-rule='evenodd'><g id='hexagons' fill='%239C92AC' fill-opacity='0.10' fill-rule='nonzero'><path d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/></g></g></svg>"), linear-gradient(to top, #FBFFFE 0%, #6D676E 75%);
+}

@@ -1,0 +1,47 @@
+/*
+ *  Modules - Custom - Footer
+ * */
+
+#form-text-area {
+    resize: none;
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    grid-template-areas: "navSection copySection contactSection";
+
+    background-color: rgba(var(--bs-dark-rgb), 0.5);
+    border-top: 1px solid rgba(var(--bs-dark-rgb), 1);
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    .navbar-section {
+        grid-area: navSection;
+
+        .navbar-nav {
+
+            a.active {
+                @include mixin-footer-links-tyle-active(var(--main-color), underline);
+                // @extend %footer-links-tyle-active;
+            }
+
+            a {
+                @extend %footer-links-style;
+            }
+        }
+
+    }
+
+    .copy-section {
+        grid-area: copySection;
+    }
+    
+    .contact-section {
+        grid-area: contactSection;
+    }
+}
