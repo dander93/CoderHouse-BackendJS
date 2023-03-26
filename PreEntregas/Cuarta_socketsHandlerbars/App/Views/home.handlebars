@@ -1,9 +1,9 @@
-<div class='d-flex flex-wrap'>
+<div id="productsContainer" class='d-flex flex-wrap'>
     {{#each products}}
         <article class="card shadow border border-dark m-2 rounded">
 
             {{#if this.thumbnails.length}}
-                <img className='card-img-top' src={{this.thumbnails.[0]}} alt={{this.description}} />
+                <img class='card-img-top' src={{this.thumbnails.[0]}} alt={{this.description}} />
             {{/if}}
 
             <h4 class='card-title fw-semibold fs-6 p-2'>{{this.title}}</h4>

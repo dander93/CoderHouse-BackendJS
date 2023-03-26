@@ -239,7 +239,7 @@ export default class ProductManager {
                 throw new BusinessException("El id no puede estar vacío");
             }
 
-            console.log("a")
+            
             const index = await this.#getProductIndexByID(id);
 
             if (index > -1) {

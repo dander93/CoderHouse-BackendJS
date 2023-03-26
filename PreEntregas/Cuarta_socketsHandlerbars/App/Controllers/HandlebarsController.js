@@ -13,7 +13,7 @@ route.get('/', async (request, response, next) => {
             .status(200)
             .render('home',
                 {
-                    tittle: 'Home',
+                    title: 'Home',
                     activeLink: 'home',
                     section_title: "Home",
                     section_title_description: "Pagina principal",
@@ -34,11 +34,11 @@ route.get('/realtimeproducts', (request, response, next) => {
             .status(200)
             .render('realTimeProducts',
                 {
-                    tittle: 'Sockets',
+                    title: 'Sockets',
                     activeLink: 'sockets',
-                    // section_title: 'Sockets',
-                    // section_title_description: 'Vista trabajando con sockets'
                     isSocketView: true,
+                    section_title: 'Sockets',
+                    section_title_description: 'Vista trabajando con sockets',
                     socketScriptUrl: 'assets/js/realTimeProducts.js'
                 })
     }
