@@ -5,9 +5,10 @@ export default class ProductBase {
 
     #validationErrors = [];
 
-    constructor(title, description, price, thumbnails, stock, code, status) {
+    constructor(title, description, price, thumbnails, stock, code, category, status) {
+        console.log(`categoria: ${category} - ${typeof category}`);
         try {
-            this.#validateInput(title, description, price, thumbnails, stock, code, status);
+            this.#validateInput(title, description, price, thumbnails, stock, code, category, status);
 
             this.title = title;
             this.description = description;
@@ -15,14 +16,15 @@ export default class ProductBase {
             this.thumbnails = thumbnails;
             this.stock = stock;
             this.code = code;
-            this.status = status;
+            this.category = category;
+            this.status = status || true;
         }
         catch (error) {
             throw error;
         }
     }
 
-    #validateInput(title, description, price, thumbnail, stock, code, status) {
+    #validateInput(title, description, price, thumbnail, stock, code, category, status) {
 
         if (!this.#isValidTitle(title)) {
             this.#validationErrors.push(
@@ -54,6 +56,11 @@ export default class ProductBase {
                 new ValidationException("El codigo de producto no puede estar vacío"));
         }
 
+        if (!this.#isValidCategory(category)) {
+            this.#validationErrors.push(
+                new ValidationException("La categoria del producto no puede estar vacía"));
+        }
+
         if (!this.#isValidStatus(status)) {
             console.log(status && typeof status === 'boolean')
             this.#validationErrors.push(
@@ -81,6 +88,8 @@ export default class ProductBase {
     #isValidStock = (stock) => typeof stock === 'number' && !isNaN(stock) && Number.isInteger(stock) && stock % 1 === 0;
 
     #isValidCode = (code) => typeof code === "string" || code;
+
+    #isValidCategory = (category) => typeof category === "string" || category;
 
     #isValidStatus = (status) => typeof status === 'boolean' || status;
 

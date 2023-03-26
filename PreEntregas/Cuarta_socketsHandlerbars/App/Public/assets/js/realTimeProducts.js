@@ -3,7 +3,7 @@
 
     cx.emit('getProducts');
 
-    cx.on('sendProducts', (data) => {
+    cx.on('listProducts', (data) => {
 
         const products = JSON.parse(data);
 
@@ -16,8 +16,78 @@
         container.replaceWith(containerClon);
     });
 
-    cx.on('productDeleted', () => {
-        cx.emit('getProducts');
+    cx.on('productDeleted', () => cx.emit('getProducts'));
+
+    cx.on('productCreated', () => cx.emit('getProducts'));
+
+    cx.on('error', async (data) => {
+        console.error(JSON.parse(await data))
+    });
+
+    document.getElementById('createProductForm').addEventListener('submit', event => {
+        event.preventDefault();
+
+
+        const form = document.forms.createProductForm;
+
+        const data = new FormData(form);
+
+        const request = {
+            title: data.get('title'),
+            description: data.get('description'),
+            code: data.get('code'),
+            price: Number.parseFloat(data.get('price')),
+            stock: Number.parseInt(data.get('stock')),
+            category: data.get('category'),
+            thumbnails: form.getAttribute('data-photos')?.split('|') || null
+        }
+
+        try {
+
+            cx.emit('createProduct', JSON.stringify(request));
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+
+            form.reset();
+            form.getAttribute('data-photos', []);
+
+            form.querySelector('#list-photos-added').innerHTML = '';
+        }
+    });
+
+    document.getElementById('addNewThumbBtn').addEventListener('click', (event) => {
+        const photoPath = prompt('Ingrese la ruta de la foto a agregar');
+
+        const form = document.getElementById('createProductForm');
+
+        let photos = form.getAttribute('data-photos')?.split('|') || [];
+        photos.push(photoPath)
+        form.setAttribute('data-photos', photos.join('|'));
+
+        const photoListItem = document.createElement('li');
+        photoListItem.innerText = photoPath;
+        photoListItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+        const photoListItemDeleteButton = document.createElement('button');
+        photoListItemDeleteButton.classList.add('btn-close')
+
+        photoListItemDeleteButton.addEventListener('click', (event) => {
+
+            let photos = form.getAttribute('data-photos')?.split('|');
+
+            photos = photos.filter(photo => photo != photoPath);
+
+            form.setAttribute('data-photos', photos.join('|'));
+
+            event.target.parentElement?.remove();
+        });
+
+        photoListItem.appendChild(photoListItemDeleteButton);
+
+        document.getElementById('list-photos-added').appendChild(photoListItem);
     });
 
     const parseProduct = (product) => {
@@ -56,13 +126,13 @@
         parsedProduct.appendChild(priceContainer);
 
         const btnContainer = document.createElement('div');
-        btnContainer.classList.add('d-flex','justify-content-center','my-2')
+        btnContainer.classList.add('d-flex', 'justify-content-center', 'my-2')
         const btnDelete = document.createElement('button');
         btnDelete.innerText = "borrar";
         btnDelete.classList.add('btn', 'btn-danger');
 
-        btnDelete.addEventListener('click',() => {
-            cx.emit('deleteProduct',product.id)
+        btnDelete.addEventListener('click', () => {
+            cx.emit('deleteProduct', product.id)
         });
 
         btnContainer.appendChild(btnDelete);

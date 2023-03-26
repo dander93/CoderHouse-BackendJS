@@ -2,6 +2,7 @@ import { Server } from 'socket.io';
 import { TechnicalException } from '../Exceptions/index.js';
 import ProductManager from './ProductManager.js';
 import * as constants from '../Models/Constants.js';
+import Product from '../Models/Product.js';
 
 export default class SocketServerBuilder {
 
@@ -36,12 +37,30 @@ export default class SocketServerBuilder {
                     console.log(`Peticion de productos recibida del usuario: ${cx.id}`);
 
                     SocketServerBuilder.#httpServerInstance.emit(
-                        'sendProducts',
+                        'listProducts',
                         JSON.stringify(
                             await SocketServerBuilder.#productMan.getProducts()));
                 }
                 catch (error) {
+                    cx.emit('error', JSON.stringify(error));
+                }
+            });
 
+            cx.on('createProduct', async (data) => {
+                try {
+                    console.log(`Peticion para crear un producto de id: '${cx.id}', request: '${data}'`)
+
+                    const { title, description, code, price, stock, category, thumbnails, status } = JSON.parse(data);
+
+                    await SocketServerBuilder.#productMan.addProduct(
+                        new Product(
+                            title, description, Number.parseFloat(price), thumbnails, Number.parseInt(stock), code, category, status));
+
+                    SocketServerBuilder.#httpServerInstance.emit('productCreated');
+                }
+                catch (error) {
+                    console.log(error);
+                    cx.emit('error', JSON.stringify(error));
                 }
             });
 
@@ -54,7 +73,7 @@ export default class SocketServerBuilder {
 
                     SocketServerBuilder.#httpServerInstance.emit('productDeleted');
                 } catch (error) {
-                    next(error);
+                    cx.emit('error', JSON.stringify(error));
                 }
             });
 
