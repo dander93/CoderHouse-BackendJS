@@ -13,8 +13,8 @@
         usrIput.parentNode.classList.remove('d-none');
     }
 
-    window.dataLayer.user = "assd"
-    // setLoggedUser();
+    // window.dataLayer.user = "assd"
+    setLoggedUser();
 
     cx.on('error', async (data) => {
         console.error(JSON.parse(await data))
@@ -41,7 +41,6 @@
             text.innerText = `${mensaje.user}: ${mensaje.message}`;
 
             li.appendChild(text);
-
 
             list.appendChild(li)
         })
