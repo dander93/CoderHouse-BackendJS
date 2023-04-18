@@ -15,7 +15,6 @@ export default class CartManager {
     // static #lastIdCart;
 
     static #cartsRepository;
-    static #productsRepository;
 
     constructor() {
         try {
@@ -26,11 +25,6 @@ export default class CartManager {
                     data.getRepository(MONGOOSE_CONFIGURATION.collections.carts, cartSchema);
 
                 console.info("CartManager: Configurando repositorio de carritos");
-
-                CartManager.#productsRepository =
-                    data.getRepository(MONGOOSE_CONFIGURATION.collections.products, productSchema);
-
-                console.info("CartManager: Configurando repositorio de productos");
             }
         }
         catch (error) {
