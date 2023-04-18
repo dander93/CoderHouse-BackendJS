@@ -1,8 +1,9 @@
 import { Schema } from 'mongoose'
-import { message } from './Types/index.js'
+import { stringRequired } from './Types/index.js'
 
 const messaggeSchema = new Schema({
-    messages: [message]
+    user: stringRequired,
+    message: stringRequired
 });
 
 

@@ -11,14 +11,6 @@ export default class ChatManager {
             .getRepository(MONGOOSE_CONFIGURATION.collections.messages, messageSchema);
 
         console.info("ChatManager: Configurando repositorio");
-
-        ChatManager.#repository.countDocuments()
-            .then(count => {
-                if (count === 0) {
-                    ChatManager.#repository.create({});
-                }
-            });
-
     }
 
     async getMessages() {
@@ -33,11 +25,10 @@ export default class ChatManager {
     async addMessage(user, message) {
         try {
 
-            const msg = await this.getMessages();
-
-            msg[0].messages.push({ user, message })
-
-            return await ChatManager.#repository.findByIdAndUpdate(msg[0]._id, msg[0]);
+            return await ChatManager.#repository.create({
+                'user': user,
+                'message': message
+            });
         }
         catch (error) {
             console.log(error)

@@ -93,13 +93,9 @@ export default class SocketServerBuilder {
                 try {
                     console.log(`Peticion de mensajes recibida del usuario: ${cx.id}`);
 
-                    const result = await SocketServerBuilder.#chatMan.getMessages();
-                    SocketServerBuilder.#httpServerInstance.emit('listMessages', JSON.stringify(result[0].messages.map(evt => {
-                        return {
-                            user: evt.user,
-                            message: evt.message
-                        };
-                    })));
+                    SocketServerBuilder.#httpServerInstance.emit(
+                        'listMessages',
+                        JSON.stringify(await SocketServerBuilder.#chatMan.getMessages()));
                 }
                 catch (error) {
                     cx.emit('error', JSON.stringify(error));

@@ -45,11 +45,7 @@
             list.appendChild(li)
         })
 
-        
-        console.log(list)
-        
         document.getElementById('message-list').replaceWith(list)
-
     });
 
     cx.on('messageAdded', () => cx.emit('getMessages'));
