@@ -40,12 +40,30 @@ route.get('/realtimeproducts', (request, response, next) => {
                     section_title: 'Sockets',
                     section_title_description: 'Vista trabajando con sockets',
                     socketScriptUrl: 'assets/js/realTimeProducts.js'
-                })
+                });
     }
     catch (error) {
-        next(error)
+        next(error);
     }
-})
+});
+
+route.get('/chat', (request, response, next) => {
+    try {
+        response
+            .status(200)
+            .render('chat', {
+                title: 'Chat',
+                activeLink: 'chat',
+                isSocketView: true,
+                section_title: 'Chat',
+                section_title_description: 'Chatea con otros participantes!',
+                socketScriptUrl: 'assets/js/chat.js'
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 
 
 export default route;

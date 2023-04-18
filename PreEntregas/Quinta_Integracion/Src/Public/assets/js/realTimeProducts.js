@@ -132,7 +132,7 @@
         btnDelete.classList.add('btn', 'btn-danger');
 
         btnDelete.addEventListener('click', () => {
-            cx.emit('deleteProduct', product.id)
+            cx.emit('deleteProduct', product._id)
         });
 
         btnContainer.appendChild(btnDelete);

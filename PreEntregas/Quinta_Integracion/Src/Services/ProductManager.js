@@ -118,7 +118,7 @@ export default class ProductManager {
 
             // return ProductManager.#products;
 
-            return await ProductManager.#repository.find();
+            return await ProductManager.#repository.find().lean();
         }
         catch (error) {
             throw error;

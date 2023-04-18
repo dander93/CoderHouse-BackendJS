@@ -49,7 +49,7 @@ export default class SocketServerBuilder {
 
             cx.on('createProduct', async (data) => {
                 try {
-                    console.log(`Peticion para crear un producto de id: '${cx.id}', request: '${data}'`)
+                    console.log(`Peticion para crear un producto, request: '${data}'`)
 
                     const { title, description, code, price, stock, category, thumbnails, status } = JSON.parse(data);
 
@@ -70,7 +70,7 @@ export default class SocketServerBuilder {
 
                     console.log(`Peticion de borrado sobre el producto id '${productID}' recibida de la conexión : '${cx.id}'`);
 
-                    await SocketServerBuilder.#productMan.deleteProduct(+productID);
+                    await SocketServerBuilder.#productMan.deleteProduct(productID);
 
                     SocketServerBuilder.#httpServerInstance.emit('productDeleted');
                 } catch (error) {

@@ -28,6 +28,17 @@
                     </a>
                 {{/if}}
             </li>
+            <li class="nav-item">
+                {{#if (eq activeLink "chat")}}
+                    <a href="/chat" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Chat
+                    </a>
+                {{else}}
+                    <a href="/chat" class="nav-link">
+                        Chat
+                    </a>
+                {{/if}}
+            </li>
         </ul>
     </nav>
 </header>
