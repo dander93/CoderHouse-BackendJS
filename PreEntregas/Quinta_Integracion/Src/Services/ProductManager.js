@@ -3,7 +3,7 @@ import Product from "../Models/Product.js";
 // import FileManager from "./FileManager.js"
 import DataAccessService from './DataAccessService.js'
 import { productSchema } from '../Models/Schemes/index.js';
-
+import MONGOOSE_CONFIGURATION from '../Models/Constants/MongooseConfigurationConstants.js';
 
 export default class ProductManager {
 
@@ -19,8 +19,10 @@ export default class ProductManager {
         try {
 
             if (!ProductManager.#repository) {
+                ProductManager.#repository =
+                    new DataAccessService()
+                        .getRepository(MONGOOSE_CONFIGURATION.collections.products, productSchema);
                 console.info("ProductManager: Configurando repositorio");
-                ProductManager.#repository = new DataAccessService().getRepository('products', productSchema);
             }
         }
         catch (error) {
@@ -153,6 +155,7 @@ export default class ProductManager {
 
     async getProductByID(id) {
         try {
+            
             if (!id) {
                 throw new ValidationException("El id no puede estar vacío");
             }
