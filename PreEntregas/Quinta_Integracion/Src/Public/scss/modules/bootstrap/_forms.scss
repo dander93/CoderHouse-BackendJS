@@ -1,0 +1,10 @@
+/*
+ * Modules - Bootstrap - Forms
+ * */
+
+.form-control {
+    &:focus {
+        border-color: var(--main-color);
+        box-shadow: 0px 0px 6px .5px var(--main-color);
+    }
+}
