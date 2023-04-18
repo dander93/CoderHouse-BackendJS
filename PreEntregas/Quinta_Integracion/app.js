@@ -14,6 +14,7 @@ try {
 
     const socketServ = new SocketServerBuilder(httpServer);
     socketServ.addDefaultEvents();
+    socketServ.addChatEvents();
 }
 catch (err) {
     console.log(err);

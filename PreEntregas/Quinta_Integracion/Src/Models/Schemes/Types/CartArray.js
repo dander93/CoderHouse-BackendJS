@@ -1,4 +1,4 @@
-import cartProduct from './CartProduct.js'
+import {cartProduct} from './index.js'
 
 const cartArray = {
     type: [cartProduct]

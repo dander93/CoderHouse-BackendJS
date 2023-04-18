@@ -1,6 +1,7 @@
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { TechnicalException } from '../Models/Exceptions/index.js';
 import ProductManager from './ProductManager.js';
+import ChatManager from './ChatManager.js';
 import * as constants from '../Models/Constants/Constants.js';
 import Product from '../Models/Product.js';
 
@@ -10,6 +11,7 @@ export default class SocketServerBuilder {
     static #httpServerInstance;
 
     static #productMan;
+    static #chatMan;
 
     constructor(httpServer) {
 
@@ -22,9 +24,13 @@ export default class SocketServerBuilder {
         }
 
         if (!SocketServerBuilder.#productMan) {
-            SocketServerBuilder.#productMan = new ProductManager(constants.PRODUCTS_FILE_PATH);
+            SocketServerBuilder.#productMan = new ProductManager();
+            //SocketServerBuilder.#productMan = new ProductManager(constants.PRODUCTS_FILE_PATH);
         }
 
+        if (!SocketServerBuilder.#chatMan) {
+            SocketServerBuilder.#chatMan = new ChatManager();
+        }
     }
 
     addDefaultEvents() {
@@ -77,6 +83,43 @@ export default class SocketServerBuilder {
                     cx.emit('error', JSON.stringify(error));
                 }
             });
+
+        });
+    }
+
+    addChatEvents() {
+        SocketServerBuilder.#httpServerInstance.on('connection', cx => {
+            cx.on('getMessages', async () => {
+                try {
+                    console.log(`Peticion de mensajes recibida del usuario: ${cx.id}`);
+
+                    const result = await SocketServerBuilder.#chatMan.getMessages();
+                    SocketServerBuilder.#httpServerInstance.emit('listMessages', JSON.stringify(result[0].messages.map(evt => {
+                        return {
+                            user: evt.user,
+                            message: evt.message
+                        };
+                    })));
+                }
+                catch (error) {
+                    cx.emit('error', JSON.stringify(error));
+                }
+            });
+
+            cx.on('addMessage', async (data) => {
+                try {
+                    console.log(`Peticion de agregar mensaje recibida del usuario: ${cx.id}`);
+
+                    const { user, message } = JSON.parse(data)
+                    await SocketServerBuilder.#chatMan.addMessage(user, message);
+
+                    SocketServerBuilder.#httpServerInstance.emit('messageAdded')
+                }
+                catch (error) {
+                    cx.emit('error', JSON.stringify(error));
+                }
+            });
+
 
         });
     }
