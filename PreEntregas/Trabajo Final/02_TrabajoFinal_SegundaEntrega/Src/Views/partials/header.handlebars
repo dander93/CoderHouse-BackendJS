@@ -1,0 +1,44 @@
+<header
+    class="container-fluid bg-dark bg-opacity-25 py-2 d-flex flex-column flex-lg-row align-items-center justify-content-lg-between border-bottom border-dark">
+    <a class="navbar-brand d-flex ml" href="#">
+        <img class="d-inline-block align-text-top logo-image" src="./assets/images/logo.svg" alt="Main-Logo">
+        <p class="d-inline-block mt-3 text-warning">DAnder</p>
+    </a>
+    <nav id="nav-main-menu" class="navbar navbar-expand">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-end justify-content-between flex-wrap">
+            <li class="nav-item">
+                {{#if (eq activeLink "home")}}
+                    <a href="/" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Home
+                    </a>
+                {{else}}
+                    <a href="/" class="nav-link">
+                        Home
+                    </a>
+                {{/if}}
+            </li>
+            <li class="nav-item">
+                {{#if (eq activeLink "sockets")}}
+                    <a href="/realtimeproducts" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Sockets
+                    </a>
+                {{else}}
+                    <a href="/realtimeproducts" class="nav-link">
+                        Sockets
+                    </a>
+                {{/if}}
+            </li>
+            <li class="nav-item">
+                {{#if (eq activeLink "chat")}}
+                    <a href="/chat" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Chat
+                    </a>
+                {{else}}
+                    <a href="/chat" class="nav-link">
+                        Chat
+                    </a>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
+</header>
