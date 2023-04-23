@@ -10,7 +10,6 @@ export default class ProductBase {
         try {
             this.#validateInput(title, description, price, thumbnail, stock, code);
 
-            // this.id = Date.now().toString();
             this.id = (++ProductBase.#lastProductIDNumber).toString();
 
             this.title = title;

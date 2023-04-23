@@ -21,7 +21,7 @@ const app = express();
  * */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(endpointLogger);
+app.use(endpointLogger);
 
 //configura la carpeta de statics de express
 app.use(express.static(constants.APP_PUBLIC_PATH));

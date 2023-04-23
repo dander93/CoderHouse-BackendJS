@@ -65,5 +65,33 @@ route.get('/chat', (request, response, next) => {
     }
 });
 
+route.get('/ejemplo', (request, response, next) => {
+    try {
+        console.log("hola")
+        response
+            .status(200)
+            .render('ejemplo', {
+                isSocketView: false,
+                asd: null
+            })
+    }
+    catch (error) {
+        next(error);
+    }
+})
+
+route.post('/ejemplo/:id', (request, response, next) => {
+    try {
+        console.log("hola")
+        response
+            .status(200)
+            .render('2', {
+                isSocketView: false,
+            })
+    }
+    catch (error) {
+        next(error);
+    }
+})
 
 export default route;
