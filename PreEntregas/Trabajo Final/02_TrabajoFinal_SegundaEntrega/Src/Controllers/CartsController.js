@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, json } from 'express';
 import ValidationException from '../Models/Exceptions/ValidationException.js';
 import { CARTS_FILE_PATH, PRODUCTS_FILE_PATH } from '../Models/Constants/Constants.js';
 import CartManager from '../Services/CartManager.js';
@@ -118,8 +118,18 @@ route.delete('/:cid', async (request, response, next) => {
 
 route.put('/:cid', async (request, response, next) => {
     try {
-        //actualiza el carrito con un array de productos especificado
-        //SOLO EL ARRAY DE PRODUCTOS DEL CARRITO
+        const { cid } = request.params;
+
+        if (!cid) {
+            throw new ValidationException("El valor del carrito solicitado debe no debe ser null");
+        }
+
+        response
+            .status(StatusCodes.OK)
+            .type('json')
+            .send(
+                await cartManager.updateProductsByCartID(cid,request.body))
+        
     }
     catch (error) {
         next(error);

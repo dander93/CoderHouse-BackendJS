@@ -1,12 +1,13 @@
 import { BusinessException, ValidationException } from '../Models/Exceptions/index.js';
 import CartProduct from '../Models/CartProduct.js';
 import DataAccessService from './DataAccessService.js';
-import { cartSchema } from '../Models/Schemes/index.js';
+import { cartSchema, productSchema } from '../Models/Schemes/index.js';
 import MONGOOSE_CONFIGURATION from '../Models/Constants/MongooseConfigurationConstants.js'
 
 export default class CartManager {
 
     static #cartsRepository;
+    static #productsRepository;
 
     constructor() {
         try {
@@ -15,6 +16,9 @@ export default class CartManager {
                 const data = new DataAccessService();
                 CartManager.#cartsRepository =
                     data.getRepository(MONGOOSE_CONFIGURATION.collections.carts, cartSchema);
+
+                CartManager.#productsRepository =
+                    data.getRepository(MONGOOSE_CONFIGURATION.collections.products, productSchema);
 
                 console.info("CartManager: Configurando repositorio de carritos");
             }
@@ -45,7 +49,7 @@ export default class CartManager {
 
             const found =
                 await CartManager.#cartsRepository.findById(id)
-                    // .populate("products");
+            // .populate("products");
 
             if (!found) {
                 throw new BusinessException("Cart no encontrado", "CRTNTFND", 404);
@@ -113,6 +117,29 @@ export default class CartManager {
                 {
                     $pull: { products: { productID: productID } }
                 })
+
+            return prevStatus;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    async updateProductsByCartID(cartID, products) {
+        try {
+
+            const productIDs = products.map(product => product.productID)
+
+            const foundIDS = await CartManager.#productsRepository.countDocuments({ _id: { $in: productIDs } });
+
+            if(productIDs.length !== foundIDS){
+                throw new ValidationException("No todos los productos proporcionados son válidos. Transacción inválida")
+            }
+
+            const prevStatus = await CartManager.#cartsRepository.findByIdAndUpdate(cartID,
+                {
+                    $set: { products: products }
+                });
 
             return prevStatus;
         }
