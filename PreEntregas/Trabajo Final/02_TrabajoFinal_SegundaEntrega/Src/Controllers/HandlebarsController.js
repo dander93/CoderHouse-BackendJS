@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { PRODUCTS_FILE_PATH } from '../Models/Constants/Constants.js';
 import ProductManager from '../Services/ProductManager.js';
+import StatusCodes from 'http-status-codes'
 
 const route = Router();
 
@@ -10,7 +11,7 @@ route.get('/', async (request, response, next) => {
 
     try {
         response
-            .status(200)
+            .status(StatusCodes.OK)
             .render('home',
                 {
                     title: 'Home',
@@ -31,7 +32,7 @@ route.get('/realtimeproducts', (request, response, next) => {
 
     try {
         response
-            .status(200)
+            .status(StatusCodes.OK)
             .render('realTimeProducts',
                 {
                     title: 'Sockets',
@@ -50,7 +51,7 @@ route.get('/realtimeproducts', (request, response, next) => {
 route.get('/chat', (request, response, next) => {
     try {
         response
-            .status(200)
+            .status(StatusCodes.OK)
             .render('chat', {
                 title: 'Chat',
                 activeLink: 'chat',

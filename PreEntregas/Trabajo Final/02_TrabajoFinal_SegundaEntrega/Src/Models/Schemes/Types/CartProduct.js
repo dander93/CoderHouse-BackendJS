@@ -1,11 +1,16 @@
-import stringRequired from "./StringRequired.js";
+import { MONGOOSE_CONFIGURATION } from "../../Constants/Constants.js";
+import { Schema } from 'mongoose'
 
 const cartProduct = {
+    productID: {
+        type: Schema.Types.ObjectId,
+        ref: MONGOOSE_CONFIGURATION.collections.products,
+        required: true
+    },
     quantity: {
         type: Number,
         default: 0
-    },
-    productID: stringRequired
+    }
 }
 
 export default cartProduct;

@@ -5,6 +5,7 @@ const EXPRESS_CONFIGURATION = {
     EXPRESS_HANDLEBARS_BASE_ROUTE: '/'
 }
 
+Object.freeze(EXPRESS_CONFIGURATION);
 
 export {
     EXPRESS_CONFIGURATION as default

@@ -3,4 +3,13 @@ const booleanRequired = {
     required: true
 }
 
-export default booleanRequired;
+const booleanRequiredAsindex = {
+    type: Boolean,
+    required: true,
+    index: true
+}
+
+export {
+    booleanRequired as default,
+    booleanRequiredAsindex
+}

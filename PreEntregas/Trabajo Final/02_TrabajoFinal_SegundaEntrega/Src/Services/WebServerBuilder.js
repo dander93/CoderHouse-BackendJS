@@ -28,7 +28,7 @@ export default class WEbServerBuilder {
     #addDefaultMiddlewares() {
         this.#addMiddleware(express.json());
         this.#addMiddleware(express.urlencoded({ extended: true }));
-        this.#addMiddleware(endpointLogger);
+        // this.#addMiddleware(endpointLogger);
 
         //ruta de archivos estaticos publicos
         this.#addMiddleware(express.static(constants.APP_PUBLIC_PATH));
