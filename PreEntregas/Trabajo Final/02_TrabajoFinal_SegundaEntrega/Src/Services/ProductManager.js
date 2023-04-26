@@ -4,6 +4,7 @@ import DataAccessService from './DataAccessService.js'
 import { productSchema } from '../Models/Schemes/index.js';
 import MONGOOSE_CONFIGURATION from '../Models/Constants/MongooseConfigurationConstants.js';
 import QueryParamsHelper from "../Helpers/QueryParamsHelper.js";
+import { paginate } from "mongoose-paginate-v2";
 
 export default class ProductManager {
 
@@ -29,7 +30,9 @@ export default class ProductManager {
 
             let paginateOptions = {
                 limit: limit,
-                page: page
+                page: page,
+                lean: true,
+                select: '-__v'
             }
 
             if (sort) {
@@ -40,7 +43,6 @@ export default class ProductManager {
                     }
                 }
             }
-
 
             return await ProductManager.#repository.paginate(
                 new QueryParamsHelper().getValidProductQueryFilters(query),
@@ -138,7 +140,7 @@ export default class ProductManager {
 
     async deleteProduct(id) {
         try {
-
+            console.log(id)
             if (!id) {
                 throw new BusinessException("El id no puede estar vacío");
             }

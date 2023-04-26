@@ -10,6 +10,16 @@ const productMan = new ProductManager(PRODUCTS_FILE_PATH);
 route.get('/', async (request, response, next) => {
 
     try {
+
+        let { limit, page, sort, ...query } = request.query;
+
+        limit = limit || 10;
+        page = page || 1;
+
+        const result = await productMan.getProducts(limit, page, sort, query)
+
+        const products = result.docs;
+
         response
             .status(StatusCodes.OK)
             .render('home',
@@ -19,7 +29,7 @@ route.get('/', async (request, response, next) => {
                     section_title: "Home",
                     section_title_description: "Pagina principal",
                     isSocketView: false,
-                    products: await productMan.getProducts()
+                    products: products
                 });
     }
     catch (error) {
@@ -65,5 +75,26 @@ route.get('/chat', (request, response, next) => {
         next(error);
     }
 });
+
+route.get('/products', (request, response, next) => {
+    try {
+
+        response
+            .status(StatusCodes.OK)
+            .render('products', {
+                title: 'Productos',
+                activeLink: 'products',
+                isSocketView: false,
+                section_title: 'Productos',
+                section_title_description: 'Lista de productos',
+                socketScriptUrl: null
+            });
+
+    }
+    catch (error) {
+        next(error);
+    }
+})
+
 
 export default route;

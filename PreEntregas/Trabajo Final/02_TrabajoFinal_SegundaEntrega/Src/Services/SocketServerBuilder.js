@@ -25,7 +25,6 @@ export default class SocketServerBuilder {
 
         if (!SocketServerBuilder.#productMan) {
             SocketServerBuilder.#productMan = new ProductManager();
-            //SocketServerBuilder.#productMan = new ProductManager(constants.PRODUCTS_FILE_PATH);
         }
 
         if (!SocketServerBuilder.#chatMan) {
@@ -38,18 +37,29 @@ export default class SocketServerBuilder {
 
             console.log(`Nueva conexión detectada - id: ${cx.id}`);
 
-            cx.on('getProducts', async () => {
+            cx.on('getProducts', async (data) => {
                 try {
 
                     console.log(`Peticion de productos recibida del usuario: ${cx.id}`);
 
+                    let { limit, page, sort, ...query } = data;
+
+                    limit = limit || 10;
+                    page = page || 1;
+            
+                    const result = await SocketServerBuilder.#productMan.getProducts(limit, page, sort, query)
+            
+                    const products = result.docs;
+
+                    console.log(result)
+
                     SocketServerBuilder.#httpServerInstance.emit(
                         'listProducts',
-                        JSON.stringify(
-                            await SocketServerBuilder.#productMan.getProducts()));
+                        JSON.stringify(products));
                 }
                 catch (error) {
-                    cx.emit('error', JSON.stringify(error));
+                    console.log(error)
+                    cx.emit('error', JSON.stringify("error"));
                 }
             });
 

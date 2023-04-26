@@ -1,7 +1,10 @@
 (() => {
     const cx = io();
 
-    cx.emit('getProducts');
+    cx.emit('getProducts', {
+        limit: 10,
+        page: 1
+    });
 
     cx.on('listProducts', (data) => {
 
@@ -16,9 +19,15 @@
         container.replaceWith(containerClon);
     });
 
-    cx.on('productDeleted', () => cx.emit('getProducts'));
+    cx.on('productDeleted', () => cx.emit('getProducts',{
+        limit: 10,
+        page: 1
+    }));
 
-    cx.on('productCreated', () => cx.emit('getProducts'));
+    cx.on('productCreated', () => cx.emit('getProducts',{
+        limit: 10,
+        page: 1
+    }));
 
     cx.on('error', async (data) => {
         console.error(JSON.parse(await data))
@@ -132,7 +141,7 @@
         btnDelete.classList.add('btn', 'btn-danger');
 
         btnDelete.addEventListener('click', () => {
-            cx.emit('deleteProduct', product._id)
+            cx.emit('deleteProduct', product.id)
         });
 
         btnContainer.appendChild(btnDelete);

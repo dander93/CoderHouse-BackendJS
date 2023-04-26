@@ -39,6 +39,17 @@
                     </a>
                 {{/if}}
             </li>
+            <li class="nav-item">
+                {{#if (eq activeLink "products")}}
+                    <a href="/products" class="nav-link active text-warning border-bottom border-warning fw-semibold">
+                        Productos
+                    </a>
+                {{else}}
+                    <a href="/products" class="nav-link">
+                        Productos
+                    </a>
+                {{/if}}
+            </li>
         </ul>
     </nav>
 </header>

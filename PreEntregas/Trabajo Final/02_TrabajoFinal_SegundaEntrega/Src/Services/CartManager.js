@@ -132,7 +132,7 @@ export default class CartManager {
 
             const foundIDS = await CartManager.#productsRepository.countDocuments({ _id: { $in: productIDs } });
 
-            if(productIDs.length !== foundIDS){
+            if (productIDs.length !== foundIDS) {
                 throw new ValidationException("No todos los productos proporcionados son válidos. Transacción inválida")
             }
 
@@ -142,6 +142,24 @@ export default class CartManager {
                 });
 
             return prevStatus;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    async updateProductByCartID(cartID, productID, cantidad) {
+        try {
+
+            await CartManager.#cartsRepository.updateOne(
+                { _id: cartID, "products.productID": productID },
+                {
+                    $set: { "products.$.quantity": cantidad }
+                })
+
+            const cart = await this.getCartProducts(cartID)
+
+            return cart.filter(product => product.productID._id.equals(productID));
         }
         catch (error) {
             throw error;

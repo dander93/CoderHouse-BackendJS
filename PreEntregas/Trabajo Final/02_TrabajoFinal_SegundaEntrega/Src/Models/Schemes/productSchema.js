@@ -3,7 +3,6 @@ import { numberRequired, stringRequired } from './Types/index.js'
 import mongoosePaginate from 'mongoose-paginate-v2'
 import { stringRequiredAsIndex } from './Types/StringRequired.js';
 import { booleanRequiredAsindex } from './Types/BooleanRequired.js';
-import renameIDandUnderslashV from '../../Helpers/SchemesGenericRenameProps.js'
 
 const productSchema = new Schema(
     {
@@ -15,13 +14,6 @@ const productSchema = new Schema(
         code: stringRequired,
         category: stringRequiredAsIndex,
         status: booleanRequiredAsindex
-    },
-    {
-        versionKey: false,
-        toJSON: {
-            virtuals: true,
-            transform: renameIDandUnderslashV
-        }
     }
 );
 

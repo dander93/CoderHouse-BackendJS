@@ -1,10 +1,6 @@
 <div id="productsContainer" class='d-flex flex-wrap'>
     {{#each products}}
-
         <article class="card shadow border border-dark m-2 rounded">
-
-            {{this}}
-
             {{#if this.thumbnails.length}}
                 <img class='card-img-top' src={{this.thumbnails.[0]}} alt={{this.description}} />
             {{/if}}

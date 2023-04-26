@@ -40,7 +40,9 @@ export default class WEbServerBuilder {
     #setupHandlebarss() {
         this.#server.engine('handlebars', handlebars.engine({
             partialsDir: constants.APP_PARTIAL_VIEWS_PATH,
-            helpers: validators
+            helpers: validators,
+            allowProtoProperties: true,
+            allowProtoMethodsByDefault: true
         }));
 
         this.#server.set('views', constants.APP_VIEWS_PATH);

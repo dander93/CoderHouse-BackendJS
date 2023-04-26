@@ -90,7 +90,7 @@ route.delete('/:cid/products/:pid', async (request, response, next) => {
             .status(StatusCodes.OK)
             .type('json')
             .send(
-                await cartManager.deleteCartProduct(cid,pid));
+                await cartManager.deleteCartProduct(cid, pid));
     }
     catch (error) {
         next(error);
@@ -128,8 +128,8 @@ route.put('/:cid', async (request, response, next) => {
             .status(StatusCodes.OK)
             .type('json')
             .send(
-                await cartManager.updateProductsByCartID(cid,request.body))
-        
+                await cartManager.updateProductsByCartID(cid, request.body))
+
     }
     catch (error) {
         next(error);
@@ -138,7 +138,26 @@ route.put('/:cid', async (request, response, next) => {
 
 route.put('/:cid/products/:pid', async (request, response, next) => {
     try {
-        //actualiza SOLO UN PRODUCTO del carrito especificado. y SOLO la cantidad de productos de ese mismo carrito
+        const { cid, pid } = request.params;
+        const { quantity } = request.body
+
+        if (!cid) {
+            throw new ValidationException("El valor del carrito solicitado debe no debe ser null");
+        }
+
+        if (!pid) {
+            throw new ValidationException("El valor del producto solicitado debe no debe ser null");
+        }
+
+        if (isNaN(quantity)) {
+            throw new ValidationException("La cantidad a modificar no es válida");
+        }
+
+        response
+            .status(StatusCodes.OK)
+            .type('json')
+            .send(
+                await cartManager.updateProductByCartID(cid, pid, quantity))
     }
     catch (error) {
         next(error);
