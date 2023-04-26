@@ -87,7 +87,7 @@ route.get('/products', (request, response, next) => {
                 isSocketView: false,
                 section_title: 'Productos',
                 section_title_description: 'Lista de productos',
-                socketScriptUrl: null
+                script: 'assets/js/productsView.js'
             });
 
     }
