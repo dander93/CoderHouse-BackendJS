@@ -1,0 +1,38 @@
+<div id="cartContainer" class="d-flex flex-column col-12 text-white border border-dark rounded">
+    <div class="d-flex flex-column">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">title</th>
+                    <th scope="col" class="text-center">code</th>
+                    <th scope="col" class="text-center">price</th>
+                    <th scope="col" class="text-center">cantidad</th>
+                    <th scope="col" class="text-center">actions</th>
+                </tr>
+            </thead>
+            <tbody id="cart-table-body">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4" class="text-end">Total</th>
+                    <th id="totalPrice"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+{{!-- Crear una vista en el router de views ‘/products’ para visualizar todos los productos con su respectiva
+paginación. Cada producto mostrado puede resolverse de dos formas:
+Llevar a una nueva vista con el producto seleccionado con su descripción completa, detalles de precio, categoría,
+etc.
+Además de un botón para agregar al carrito.
+Contar con el botón de “agregar al carrito” directamente, sin necesidad de abrir una página adicional con los
+detalles
+del producto.
+
+Además, agregar una vista en ‘/carts/:cid (cartId) para visualizar un carrito específico, donde se deberán listar
+SOLO
+los productos que pertenezcan a dicho carrito. --}}

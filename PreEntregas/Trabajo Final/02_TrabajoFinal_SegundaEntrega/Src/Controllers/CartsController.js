@@ -3,7 +3,8 @@ import ValidationException from '../Models/Exceptions/ValidationException.js';
 import { CARTS_FILE_PATH, PRODUCTS_FILE_PATH } from '../Models/Constants/Constants.js';
 import CartManager from '../Services/CartManager.js';
 import ProductManager from '../Services/ProductManager.js';
-import StatusCodes from 'http-status-codes'
+import StatusCodes from 'http-status-codes';
+import BusinessException from '../Models/Exceptions/BusinessException.js';
 
 const route = Router();
 const cartManager = new CartManager(CARTS_FILE_PATH);
@@ -32,6 +33,11 @@ route.get('/:cid', async (request, response, next) => {
                 await cartManager.getCartProducts(cid));
     }
     catch (error) {
+
+        if (error.name === 'CastError') {
+            return next(new BusinessException("Carrito no valido", "ERCAR400", 400));
+        }
+
         next(error);
     }
 });
@@ -128,7 +134,7 @@ route.put('/:cid', async (request, response, next) => {
             .status(StatusCodes.OK)
             .type('json')
             .send(
-                await cartManager.updateProductsByCartID(cid, request.body))
+                await cartManager.updateProductsByCartID(cid, request.body));
 
     }
     catch (error) {
@@ -139,7 +145,7 @@ route.put('/:cid', async (request, response, next) => {
 route.put('/:cid/products/:pid', async (request, response, next) => {
     try {
         const { cid, pid } = request.params;
-        const { quantity } = request.body
+        const { quantity } = request.body;
 
         if (!cid) {
             throw new ValidationException("El valor del carrito solicitado debe no debe ser null");
@@ -157,7 +163,7 @@ route.put('/:cid/products/:pid', async (request, response, next) => {
             .status(StatusCodes.OK)
             .type('json')
             .send(
-                await cartManager.updateProductByCartID(cid, pid, quantity))
+                await cartManager.updateProductByCartID(cid, pid, quantity));
     }
     catch (error) {
         next(error);

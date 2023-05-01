@@ -45,11 +45,8 @@ export default class CartManager {
                 throw new ValidationException("El id no puede estar vacío");
             }
 
-
-
             const found =
                 await CartManager.#cartsRepository.findById(id)
-            // .populate("products");
 
             if (!found) {
                 throw new BusinessException("Cart no encontrado", "CRTNTFND", 404);

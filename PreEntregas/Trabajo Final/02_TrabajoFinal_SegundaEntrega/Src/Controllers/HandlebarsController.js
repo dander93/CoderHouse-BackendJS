@@ -78,7 +78,6 @@ route.get('/chat', (request, response, next) => {
 
 route.get('/products', (request, response, next) => {
     try {
-
         response
             .status(StatusCodes.OK)
             .render('products', {
@@ -87,13 +86,30 @@ route.get('/products', (request, response, next) => {
                 isSocketView: false,
                 section_title: 'Productos',
                 section_title_description: 'Lista de productos',
-                script: 'assets/js/productsView.js'
+                script: 'assets/js/products.view.js'
             });
     }
     catch (error) {
         next(error);
     }
-})
+});
 
+route.get('/carts/:cid', (request, response, next) => {
+    try {
+        response
+            .status(StatusCodes.OK)
+            .render('cart', {
+                title: 'Carrito',
+                activeLink: null,
+                isSocketView: false,
+                section_title: 'Carrito',
+                section_title_description: 'Productos en el carrito',
+                script: '/assets/js/products.cart.js'
+            });
+    }
+    catch (error) {
+        next(error)
+    }
+});
 
 export default route;

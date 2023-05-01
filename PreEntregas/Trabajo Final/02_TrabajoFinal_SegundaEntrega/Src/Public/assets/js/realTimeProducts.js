@@ -19,18 +19,18 @@
         container.replaceWith(containerClon);
     });
 
-    cx.on('productDeleted', () => cx.emit('getProducts',{
+    cx.on('productDeleted', () => cx.emit('getProducts', {
         limit: 10,
         page: 1
     }));
 
-    cx.on('productCreated', () => cx.emit('getProducts',{
+    cx.on('productCreated', () => cx.emit('getProducts', {
         limit: 10,
         page: 1
     }));
 
     cx.on('error', async (data) => {
-        console.error(JSON.parse(await data))
+        console.error(JSON.parse(await data));
     });
 
     document.getElementById('createProductForm').addEventListener('submit', event => {
@@ -49,7 +49,7 @@
             stock: Number.parseInt(data.get('stock')),
             category: data.get('category'),
             thumbnails: form.getAttribute('data-photos')?.split('|') || null
-        }
+        };
 
         try {
 
@@ -73,7 +73,7 @@
         const form = document.getElementById('createProductForm');
 
         let photos = form.getAttribute('data-photos')?.split('|') || [];
-        photos.push(photoPath)
+        photos.push(photoPath);
         form.setAttribute('data-photos', photos.join('|'));
 
         const photoListItem = document.createElement('li');
@@ -81,7 +81,7 @@
         photoListItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
 
         const photoListItemDeleteButton = document.createElement('button');
-        photoListItemDeleteButton.classList.add('btn-close')
+        photoListItemDeleteButton.classList.add('btn-close');
 
         photoListItemDeleteButton.addEventListener('click', (event) => {
 
@@ -135,13 +135,13 @@
         parsedProduct.appendChild(priceContainer);
 
         const btnContainer = document.createElement('div');
-        btnContainer.classList.add('d-flex', 'justify-content-center', 'my-2')
+        btnContainer.classList.add('d-flex', 'justify-content-center', 'my-2');
         const btnDelete = document.createElement('button');
         btnDelete.innerText = "borrar";
         btnDelete.classList.add('btn', 'btn-danger');
 
         btnDelete.addEventListener('click', () => {
-            cx.emit('deleteProduct', product.id)
+            cx.emit('deleteProduct', product.id);
         });
 
         btnContainer.appendChild(btnDelete);
@@ -149,6 +149,6 @@
         parsedProduct.appendChild(btnContainer);
 
         return parsedProduct;
-    }
+    };
 
 })();
