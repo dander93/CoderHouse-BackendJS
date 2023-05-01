@@ -89,7 +89,6 @@ route.get('/products', (request, response, next) => {
                 section_title_description: 'Lista de productos',
                 script: 'assets/js/productsView.js'
             });
-
     }
     catch (error) {
         next(error);

@@ -2,99 +2,111 @@ const form = document.getElementById('formProductos');
 const limitSelect = document.getElementById('select-limit');
 const orderSelect = document.getElementById('select-order')
 
-document.addEventListener('load',function(event){
-    getPage(1)
+
+window.addEventListener("load", async (event) => {
+    window.dataLayer = window.dataLayer || {}
+    window.dataLayer.currentPage = 1
+    await getPage();
 })
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
     event.preventDefault()
-
-
+    await getPage();
 });
 
+function createTableCell(text) {
+    const td = document.createElement('td');
+    td.appendChild(document.createTextNode(text))
+    return td;
+}
 
-const getPage = (page) => {
+function setNextPageBtn(result) {
+    if (result.hasNextPage) {
+        const nextBtn = document.getElementById('next-page-btn');
+        nextBtn.classList.remove('disabled');
+        nextBtn.classList.add('btn-outline-warning');
+        nextBtn.onclick = () => {
+            window.dataLayer.currentPage = result.page + 1;
+            getPage(result.page + 1);
+        }
+    }
+    else {
+        const nextBtn = document.getElementById('next-page-btn');
+        nextBtn.classList.add('disabled');
+        nextBtn.classList.remove('btn-outline-warning');
+        nextBtn.onclick = null;
+    }
+}
 
-    fetch(`/api/products?limit=${limitSelect.value}&order=${orderSelect.value}&page=${page}`,
-        {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(result => {
+function setPrevPageBtn(result) {
+    if (result.hasPrevPage) {
+        const prevBtn = document.getElementById('prev-page-btn');
+        prevBtn.classList.remove('disabled')
+        prevBtn.classList.add('btn-outline-warning')
+        prevBtn.onclick = () => {
+            window.dataLayer.currentPage = Number.parseInt(result.page) - 1;
+            getPage(Number.parseInt(result.page) - 1)
+        };
+    }
+    else {
+        const prevBtn = document.getElementById('prev-page-btn');
+        prevBtn.classList.add('disabled');
+        prevBtn.classList.remove('btn-outline-warning');
+        prevBtn.onclick = null;
+    }
+}
 
-            const bodyTrs = result.payload.map(product => {
-                const row = document.createElement('tr');
+function getRows(products) {
+    return products.map(product => {
+        const row = document.createElement('tr');
 
-                const tdID = document.createElement('td');
-                tdID.innerText = product.id;
-                row.appendChild(tdID);
+        row.appendChild(createTableCell(product.id));
+        row.appendChild(createTableCell(product.title));
+        row.appendChild(createTableCell(product.description));
+        row.appendChild(createTableCell(product.price));
+        row.appendChild(createTableCell(product.stock));
+        row.appendChild(createTableCell(product.code));
+        row.appendChild(createTableCell(product.category));
+        row.appendChild(createTableCell(product.status));
 
-                const tdTitle = document.createElement('td');
-                tdTitle.innerText = product.title;
-                row.appendChild(tdTitle);
+        const rowActioncontainer = document.createElement('td');
+        rowActioncontainer.classList.add('bg-dark','bg-opacity-50','d-flex','justify-content-center')
 
-                const tdDescription = document.createElement('td');
-                tdDescription.innerText = product.description;
-                row.appendChild(tdDescription);
+        const btnAddToCart = document.createElement('button');
+        btnAddToCart.innerText = "Agregar al carrito";
+        btnAddToCart.classList.add('btn', 'btn-outline-warning');
+        
+        rowActioncontainer.appendChild(btnAddToCart);
+        row.appendChild(rowActioncontainer);
 
-                const tdPrice = document.createElement('td');
-                tdPrice.innerText = product.price;
-                row.appendChild(tdPrice);
+        return row;
+    });
+}
 
-                const tdStock = document.createElement('td');
-                tdStock.innerText = product.stock;
-                row.appendChild(tdStock);
-
-                const tdCode = document.createElement('td')
-                tdCode.innerText = product.code;
-                row.appendChild(tdCode);
-
-                const tdCategory = document.createElement('td')
-                tdCategory.innerText = product.category
-                row.appendChild(tdCategory);
-
-                const tdStatus = document.createElement('td')
-                tdStatus.innerText = product.status
-                row.appendChild(tdStatus);
-
-                const rowActioncontainer = document.createElement('td');
-
-                const btnAddToCart = document.createElement('button');
-                btnAddToCart.innerText = "Agregar al carrito";
-                btnAddToCart.classList.add('btn')
-                btnAddToCart.classList.add('btn-outline-warning')
-
-                rowActioncontainer.appendChild(btnAddToCart);
-
-                row.appendChild(rowActioncontainer)
-
-                return row;
+const getPage = async (page) => {
+    try {
+        const httpResult = await fetch(`/api/products?limit=${limitSelect.value}&sort=${orderSelect.value}&page=${page || window.dataLayer.currentPage}`,
+            {
+                method: 'GET',
             });
 
-            const tbody = document.createElement('tbody');
-            tbody.id = "products-table-body";
+        const result = await httpResult.json();
+        const bodyRows = getRows(result.payload);
 
-            bodyTrs.forEach(elem => tbody.appendChild(elem));
+        const tbody = document.createElement('tbody');
+        tbody.id = "products-table-body";
 
-            const tableBody = document.getElementById('products-table-body');
-            tableBody.replaceWith(tbody);
+        bodyRows.forEach(elem => tbody.appendChild(elem));
 
-            console.log(result)
+        const tableBody = document.getElementById('products-table-body');
+        tableBody.replaceWith(tbody);
 
-            document.getElementById('pages').innerText = `${result.page}/${result.totalPages}`;
+        document.getElementById('pages').innerText = `${result.page}/${result.totalPages}`;
 
-            if (result.hasNextPage) {
-                const nextBtn = document.getElementById('next-page-btn');
-                nextBtn.classList.remove('disabled');
-                nextBtn.click = getPage(result.page + 1)
-            }
-
-            if (result.hasPrevPage) {
-                const prevBtn = document.getElementById('prev-page-btn');
-                prevBtn.classList.remove('disabled')
-                prevBtn.click = getPage(result.page - 1)
-            }
-
-        })
-        .catch(console.error)
+        setNextPageBtn(result);
+        setPrevPageBtn(result);
+    }
+    catch (error) {
+        console.error(error)
+    }
 }
