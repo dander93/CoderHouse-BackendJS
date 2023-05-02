@@ -1,20 +1,30 @@
 import express from 'express';
 import { endpointLogger, exceptionHandlerMiddleware } from '../Middlewares/index.js';
 import * as constants from '../Models/Constants/Constants.js';
-import handlebars from 'express-handlebars'
+import handlebars from 'express-handlebars';
 import validators from '../Helpers/handlebarsHelpers.js';
-import { ProductsController, CartsController, HandlebarsController } from '../Controllers/index.js'
+import { ProductsController, CartsController, HandlebarsController, UsersController } from '../Controllers/index.js';
+import ConfigigurationManager from '../Configuration/ConfigurationManager.js';
 
 export default class WEbServerBuilder {
 
     #server;
+    #configuration;
 
     constructor() {
-        this.#server = express();
+        try {
 
-        this.#addDefaultMiddlewares();
-        this.#setupRoutes();
-        this.#server.use(exceptionHandlerMiddleware);
+            this.#server = express();
+
+            this.#configuration = new ConfigigurationManager();
+
+            this.#addDefaultMiddlewares();
+            this.#setupRoutes();
+            this.#server.use(exceptionHandlerMiddleware);
+        }
+        catch (error) {
+            throw error;
+        }
     }
 
     getServer() {
@@ -50,8 +60,9 @@ export default class WEbServerBuilder {
     }
 
     #setupRoutes() {
-        this.#server.use(constants.EXPRESS_CONFIGURATION.EXPRESS_PRODUCTS_BASE_ROUTE, ProductsController);
-        this.#server.use(constants.EXPRESS_CONFIGURATION.EXPRESS_CARTS_BASE_ROUTE, CartsController);
-        this.#server.use(constants.EXPRESS_CONFIGURATION.EXPRESS_HANDLEBARS_BASE_ROUTE, HandlebarsController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.PRODUCTS_BASE_ROUTE, ProductsController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.CARTS_BASE_ROUTE, CartsController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.HANDLEBARS_BASE_ROUTE, HandlebarsController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.USERS_BASE_ROUTE, UsersController);
     }
 }

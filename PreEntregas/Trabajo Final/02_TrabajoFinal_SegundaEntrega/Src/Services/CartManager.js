@@ -1,8 +1,6 @@
 import { BusinessException, ValidationException } from '../Models/Exceptions/index.js';
-import CartProduct from '../Models/CartProduct.js';
 import DataAccessService from './DataAccessService.js';
 import { cartSchema, productSchema } from '../Models/Schemes/index.js';
-import MONGOOSE_CONFIGURATION from '../Models/Constants/MongooseConfigurationConstants.js'
 
 export default class CartManager {
 
@@ -15,10 +13,10 @@ export default class CartManager {
             if (!CartManager.#cartsRepository) {
                 const data = new DataAccessService();
                 CartManager.#cartsRepository =
-                    data.getRepository(MONGOOSE_CONFIGURATION.collections.carts, cartSchema);
+                    data.getRepository("carts", cartSchema);
 
                 CartManager.#productsRepository =
-                    data.getRepository(MONGOOSE_CONFIGURATION.collections.products, productSchema);
+                    data.getRepository("products", productSchema);
 
                 console.info("CartManager: Configurando repositorio de carritos");
             }
@@ -46,7 +44,7 @@ export default class CartManager {
             }
 
             const found =
-                await CartManager.#cartsRepository.findById(id)
+                await CartManager.#cartsRepository.findById(id);
 
             if (!found) {
                 throw new BusinessException("Cart no encontrado", "CRTNTFND", 404);
@@ -76,7 +74,7 @@ export default class CartManager {
             if (!count) {
                 await CartManager.#cartsRepository.findByIdAndUpdate(cartID,
                     { $push: { products: { quantity: 1, productID: productID } } }
-                )
+                );
             }
             else {
                 await CartManager.#cartsRepository.updateOne(
@@ -99,7 +97,7 @@ export default class CartManager {
 
             const prevStatus = await CartManager.#cartsRepository.findByIdAndUpdate(cartID, {
                 $set: { "products": [] }
-            })
+            });
 
             return prevStatus;
         }
@@ -113,7 +111,7 @@ export default class CartManager {
             const prevStatus = await CartManager.#cartsRepository.findByIdAndUpdate(cartID,
                 {
                     $pull: { products: { productID: productID } }
-                })
+                });
 
             return prevStatus;
         }
@@ -125,12 +123,12 @@ export default class CartManager {
     async updateProductsByCartID(cartID, products) {
         try {
 
-            const productIDs = products.map(product => product.productID)
+            const productIDs = products.map(product => product.productID);
 
             const foundIDS = await CartManager.#productsRepository.countDocuments({ _id: { $in: productIDs } });
 
             if (productIDs.length !== foundIDS) {
-                throw new ValidationException("No todos los productos proporcionados son válidos. Transacción inválida")
+                throw new ValidationException("No todos los productos proporcionados son válidos. Transacción inválida");
             }
 
             const prevStatus = await CartManager.#cartsRepository.findByIdAndUpdate(cartID,
@@ -152,9 +150,9 @@ export default class CartManager {
                 { _id: cartID, "products.productID": productID },
                 {
                     $set: { "products.$.quantity": cantidad }
-                })
+                });
 
-            const cart = await this.getCartProducts(cartID)
+            const cart = await this.getCartProducts(cartID);
 
             return cart.filter(product => product.productID._id.equals(productID));
         }

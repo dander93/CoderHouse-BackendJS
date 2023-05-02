@@ -1,21 +1,23 @@
-import * as constants from '../Models/Constants/Constants.js';
 import mongoose from "mongoose";
-import productSchema from '../Models/Schemes/productSchema.js'
+import ConfigigurationManager from '../Configuration/ConfigurationManager.js';
 
 export default class DataAccessService {
 
-    static #connection;
+    #configuration;
+
+    #connection;
 
     constructor() {
         try {
 
-            if (!DataAccessService.#connection) {
-                DataAccessService.#connection = this.#getConnection(`${constants.MONGOOSE_CONFIGURATION.connectionString}`);
-                console.info(`Connextion creada con '${constants.MONGOOSE_CONFIGURATION.connectionString}'`)
-            }
+            this.#configuration = new ConfigigurationManager();
+            this.#connection =
+                this.#getConnection(`${this.#configuration.MONGOOSE_CONFIGURATION.connectionString}`);
 
-        } catch (error) {
-            console.error(error)
+
+        }
+        catch (error) {
+            throw error;
         }
     }
 
@@ -26,17 +28,17 @@ export default class DataAccessService {
     #createCollection(schemeName, schemeModel) {
         try {
 
-            const scheme = DataAccessService.#connection.model(schemeName, schemeModel);
+            const scheme = this.#connection.model(schemeName, schemeModel);
 
             scheme.createCollection();
         }
         catch (error) {
-            console.log(error)
+            throw error;
         }
     }
 
     getRepository(modelName, scheme) {
-        return DataAccessService.#connection.model(modelName, scheme);
+        return this.#connection.model(modelName, scheme);
     }
 
 }

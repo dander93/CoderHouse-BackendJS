@@ -2,9 +2,7 @@ import { BusinessException, ValidationException } from "../Models/Exceptions/ind
 import Product from "../Models/Product.js";
 import DataAccessService from './DataAccessService.js'
 import { productSchema } from '../Models/Schemes/index.js';
-import MONGOOSE_CONFIGURATION from '../Models/Constants/MongooseConfigurationConstants.js';
 import QueryParamsHelper from "../Helpers/QueryParamsHelper.js";
-import { paginate } from "mongoose-paginate-v2";
 
 export default class ProductManager {
 
@@ -16,7 +14,8 @@ export default class ProductManager {
             if (!ProductManager.#repository) {
                 ProductManager.#repository =
                     new DataAccessService()
-                        .getRepository(MONGOOSE_CONFIGURATION.collections.products, productSchema);
+                        //FIXME: quitar magic string
+                        .getRepository("products", productSchema);
                 console.info("ProductManager: Configurando repositorio");
             }
         }

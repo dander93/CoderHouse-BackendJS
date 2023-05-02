@@ -1,15 +1,23 @@
-import * as constants from './Src/Models/Constants/Constants.js';
+import ConfigigurationManager from './Src/Configuration/ConfigurationManager.js';
 import SocketServerBuilder from './Src/Services/SocketServerBuilder.js';
 import WEbServerBuilder from './Src/Services/WebServerBuilder.js';
 
 try {
-    const app = new WEbServerBuilder().getServer();
 
-    const httpServer = app.listen(constants.EXPRESS_CONFIGURATION.EXPRESS_DEFAULT_PORT, () => {
-        console.clear();
-        console.log(`Servidor Inicializado`);
-        console.log(`Servidor escuchando por default en el puerto: '${constants.EXPRESS_CONFIGURATION.EXPRESS_DEFAULT_PORT}'`);
-    });
+    const app =
+        new WEbServerBuilder()
+            .getServer();
+
+    const configuration =
+        new ConfigigurationManager();
+
+    const httpServer =
+        app.listen(
+            configuration.EXPRESS_CONFIGURATION.PORT,
+            () => {
+                console.log(`Servidor inicializado`);
+                console.log(`Servidor escuchando por default en el puerto: '${configuration.EXPRESS_CONFIGURATION.PORT}'`);
+            });
 
     const socketServ = new SocketServerBuilder(httpServer);
     socketServ.addDefaultEvents();

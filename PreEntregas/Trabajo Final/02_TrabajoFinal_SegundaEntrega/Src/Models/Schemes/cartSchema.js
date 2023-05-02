@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose'
-import { MONGOOSE_CONFIGURATION } from '../Constants/Constants.js';
 import renameIDandUnderslashV from '../../Helpers/SchemesGenericRenameProps.js'
 
 const cartSchema = new Schema({
@@ -7,7 +6,8 @@ const cartSchema = new Schema({
         type: [{
             productID: {
                 type: Schema.Types.ObjectId,
-                ref: MONGOOSE_CONFIGURATION.collections.products
+                //FIXME: quitar magic string
+                ref: "products"
             },
             quantity: {
                 type: Number,

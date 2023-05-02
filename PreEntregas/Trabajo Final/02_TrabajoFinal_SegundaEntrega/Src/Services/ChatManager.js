@@ -1,4 +1,3 @@
-import { MONGOOSE_CONFIGURATION } from "../Models/Constants/Constants.js";
 import { messageSchema } from "../Models/Schemes/index.js";
 import DataAccessService from "./DataAccessService.js";
 
@@ -8,7 +7,8 @@ export default class ChatManager {
 
     constructor() {
         ChatManager.#repository = new DataAccessService()
-            .getRepository(MONGOOSE_CONFIGURATION.collections.messages, messageSchema);
+            //FIXME: quitar magic string
+            .getRepository("messages", messageSchema);
 
         console.info("ChatManager: Configurando repositorio");
     }
