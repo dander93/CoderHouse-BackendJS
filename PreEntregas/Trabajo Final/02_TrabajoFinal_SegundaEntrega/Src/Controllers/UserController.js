@@ -2,10 +2,9 @@ import { Router, response } from 'express';
 import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import UserCreateResponse from '../Models/Response/UserCreateResponse.js';
-import UserManager from '../Services/UserManager.js';
+import endpointAuthRequired from '../Middlewares/EndpointRequireAuth.js';
 
 const router = Router();
-const userManager = new UserManager();
 
 router.get('/register', (request, response, next) => {
     try {
@@ -92,16 +91,14 @@ router.post('/login', (request, response, next) => {
 });
 
 
-router.get('/logout', (request, response, next) => {
+router.get('/logout', endpointAuthRequired, (request, response, next) => {
     try {
 
-        request
-            .session
-            .destroy();
+        request.session.destroy();
 
         response
             .status(StatusCodes.TEMPORARY_REDIRECT)
-            .redirect('/');
+            .redirect('/login');
 
     } catch (error) {
         next(error);

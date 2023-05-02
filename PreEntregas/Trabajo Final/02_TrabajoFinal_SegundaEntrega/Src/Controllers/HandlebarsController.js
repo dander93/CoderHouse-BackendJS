@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { PRODUCTS_FILE_PATH } from '../Models/Constants/Constants.js';
 import ProductManager from '../Services/ProductManager.js';
 import StatusCodes from 'http-status-codes';
+import endpointAuthRequired from '../Middlewares/EndpointRequireAuth.js';
 
 const route = Router();
 
@@ -13,7 +14,7 @@ route.get('/', async (request, response, next) => {
         .redirect('/login');
 });
 
-route.get('/home', async (request, response, next) => {
+route.get('/home', endpointAuthRequired, async (request, response, next) => {
 
     try {
 
@@ -45,7 +46,7 @@ route.get('/home', async (request, response, next) => {
 
 });
 
-route.get('/realtimeproducts', (request, response, next) => {
+route.get('/realtimeproducts', endpointAuthRequired, (request, response, next) => {
 
     try {
         response
@@ -66,7 +67,7 @@ route.get('/realtimeproducts', (request, response, next) => {
     }
 });
 
-route.get('/chat', (request, response, next) => {
+route.get('/chat', endpointAuthRequired, (request, response, next) => {
     try {
         response
             .status(StatusCodes.OK)
@@ -85,9 +86,8 @@ route.get('/chat', (request, response, next) => {
     }
 });
 
-route.get('/products', (request, response, next) => {
+route.get('/products', endpointAuthRequired, (request, response, next) => {
     try {
-        console.log(request.session.id)
         response
             .status(StatusCodes.OK)
             .render('products', {
@@ -105,7 +105,7 @@ route.get('/products', (request, response, next) => {
     }
 });
 
-route.get('/carts/:cid', (request, response, next) => {
+route.get('/carts/:cid', endpointAuthRequired, (request, response, next) => {
     try {
         response
             .status(StatusCodes.OK)
