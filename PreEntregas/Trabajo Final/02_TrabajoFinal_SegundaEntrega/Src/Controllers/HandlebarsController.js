@@ -35,7 +35,8 @@ route.get('/home', async (request, response, next) => {
                     section_title: "Home",
                     section_title_description: "Pagina principal",
                     isSocketView: false,
-                    products: products
+                    products: products,
+                    user: request.session.user || null
                 });
     }
     catch (error) {
@@ -56,7 +57,8 @@ route.get('/realtimeproducts', (request, response, next) => {
                     isSocketView: true,
                     section_title: 'Sockets',
                     section_title_description: 'Vista trabajando con sockets',
-                    socketScriptUrl: 'assets/js/realTimeProducts.js'
+                    socketScriptUrl: 'assets/js/realTimeProducts.js',
+                    user: request.session.user || null
                 });
     }
     catch (error) {
@@ -74,7 +76,8 @@ route.get('/chat', (request, response, next) => {
                 isSocketView: true,
                 section_title: 'Chat',
                 section_title_description: 'Chatea con otros participantes!',
-                socketScriptUrl: 'assets/js/chat.js'
+                socketScriptUrl: 'assets/js/chat.js',
+                user: request.session.user || null
             });
     }
     catch (error) {
@@ -84,8 +87,7 @@ route.get('/chat', (request, response, next) => {
 
 route.get('/products', (request, response, next) => {
     try {
-
-        console.log(request.session);
+        console.log(request.session.id)
         response
             .status(StatusCodes.OK)
             .render('products', {
@@ -94,7 +96,8 @@ route.get('/products', (request, response, next) => {
                 isSocketView: false,
                 section_title: 'Productos',
                 section_title_description: 'Lista de productos',
-                script: '/assets/js/products.view.js'
+                script: '/assets/js/products.view.js',
+                user: request.session.user || null
             });
     }
     catch (error) {
@@ -112,7 +115,8 @@ route.get('/carts/:cid', (request, response, next) => {
                 isSocketView: false,
                 section_title: 'Carrito',
                 section_title_description: 'Productos en el carrito',
-                script: '/assets/js/products.cart.js'
+                script: '/assets/js/products.cart.js',
+                user: request.session.user || null
             });
     }
     catch (error) {

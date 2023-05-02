@@ -3,7 +3,6 @@ import StatusCodes from 'http-status-codes';
 import passport from 'passport';
 import UserCreateResponse from '../Models/Response/UserCreateResponse.js';
 import UserManager from '../Services/UserManager.js';
-import { info } from 'node-sass';
 
 const router = Router();
 const userManager = new UserManager();
@@ -90,6 +89,23 @@ router.post('/login', (request, response, next) => {
                 next(error);
             }
         })(request, response, next);
+});
+
+
+router.get('/logout', (request, response, next) => {
+    try {
+
+        request
+            .session
+            .destroy();
+
+        response
+            .status(StatusCodes.TEMPORARY_REDIRECT)
+            .redirect('/');
+
+    } catch (error) {
+        next(error);
+    }
 });
 
 export {

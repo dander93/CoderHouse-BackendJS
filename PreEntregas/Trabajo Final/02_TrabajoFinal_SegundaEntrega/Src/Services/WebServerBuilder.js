@@ -9,6 +9,7 @@ import initializePassport from '../Configuration/passport.config.js';
 import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import cookieParser from 'cookie-parser';
 
 export default class WEbServerBuilder {
 
@@ -73,11 +74,12 @@ export default class WEbServerBuilder {
 
     #setupPassport() {
 
+        this.#server.use(cookieParser());
         this.#server.use(session({
             store: MongoStore.create({
                 mongoUrl: this.#configuration.MONGOOSE_CONFIGURATION.connectionString,
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-                ttl: 40
+                ttl: 150
             }),
             secret: "CoderS3cret",
             resave: false,

@@ -34,6 +34,12 @@ const initializePassport = () => {
                     username,
                     'user');
 
+                request.session.user = {
+                    role: user.role,
+                    name: `${user.name} ${user.lastName}`,
+                    mail: user.email
+                };
+
                 return done(null, user);
             }
             catch (error) {
@@ -48,6 +54,19 @@ const initializePassport = () => {
 
         async (request, username, password, done) => {
             try {
+
+                if (username == 'adminCoder@coder.com' &&
+                    password == 'adminCod3r123') {
+
+                    request.session.user = {
+                        role: 'admin',
+                        name: 'admin coder',
+                        mail: username
+                    };
+
+                    return done(null, request.session.user);
+                }
+
                 const user = await userManager.findByEmail(username);
 
                 if (!user) {
@@ -59,6 +78,12 @@ const initializePassport = () => {
                     console.error(`La password proporcionada por el usuario '${username}' no fue correcta`);
                     return done(null, false);
                 }
+
+                request.session.user = {
+                    role: user.role,
+                    name: `${user.name} ${user.lastName}`,
+                    mail: user.email
+                };
 
                 return done(null, user);
             }

@@ -1,3 +1,9 @@
+{{#if user}}
+<div>
+    <p>Bienvenido, {{user.name}}! | rol: {{user.role}}</p>
+</div>
+{{/if}}
+
 <div id="productsContainer" class="d-flex flex-column col-12 text-white border border-dark rounded">
 
     <div class="d-flex col p-2 justify-content-center bg-dark bg-opacity-25 rounded-top">
@@ -17,12 +23,6 @@
             </select>
         </div>
     </div>
-
-    {{#if session}}
-    <div>
-        <p>hola</p>
-    </div>
-    {{/if}}
 
     <div class="d-flex flex-column">
         <table class="table">
