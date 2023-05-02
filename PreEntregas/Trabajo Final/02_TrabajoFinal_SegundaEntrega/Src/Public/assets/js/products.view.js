@@ -14,17 +14,6 @@ form.addEventListener('submit', async (event) => {
     await getPage();
 });
 
-function textToCurrency(text) {
-    return text.toLocaleString('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-        useGrouping: true,
-        currencyDisplay: 'symbol'
-    });
-}
-
 function createTableCell(text, classList) {
     const td = document.createElement('td');
     td.classList.add('border-0');

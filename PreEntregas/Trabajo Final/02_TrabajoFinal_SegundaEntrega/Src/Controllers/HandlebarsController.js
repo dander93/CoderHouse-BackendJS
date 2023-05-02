@@ -1,13 +1,19 @@
-import { Router } from 'express'
+import { Router } from 'express';
 import { PRODUCTS_FILE_PATH } from '../Models/Constants/Constants.js';
 import ProductManager from '../Services/ProductManager.js';
-import StatusCodes from 'http-status-codes'
+import StatusCodes from 'http-status-codes';
 
 const route = Router();
 
 const productMan = new ProductManager(PRODUCTS_FILE_PATH);
 
 route.get('/', async (request, response, next) => {
+    response
+        .status(StatusCodes.TEMPORARY_REDIRECT)
+        .redirect('/login');
+});
+
+route.get('/home', async (request, response, next) => {
 
     try {
 
@@ -16,7 +22,7 @@ route.get('/', async (request, response, next) => {
         limit = limit || 10;
         page = page || 1;
 
-        const result = await productMan.getProducts(limit, page, sort, query)
+        const result = await productMan.getProducts(limit, page, sort, query);
 
         const products = result.docs;
 
@@ -78,6 +84,8 @@ route.get('/chat', (request, response, next) => {
 
 route.get('/products', (request, response, next) => {
     try {
+
+        console.log(request.session);
         response
             .status(StatusCodes.OK)
             .render('products', {
@@ -86,7 +94,7 @@ route.get('/products', (request, response, next) => {
                 isSocketView: false,
                 section_title: 'Productos',
                 section_title_description: 'Lista de productos',
-                script: 'assets/js/products.view.js'
+                script: '/assets/js/products.view.js'
             });
     }
     catch (error) {
@@ -108,7 +116,7 @@ route.get('/carts/:cid', (request, response, next) => {
             });
     }
     catch (error) {
-        next(error)
+        next(error);
     }
 });
 

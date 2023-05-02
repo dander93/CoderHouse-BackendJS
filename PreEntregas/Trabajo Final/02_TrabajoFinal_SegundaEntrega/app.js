@@ -15,6 +15,7 @@ try {
         app.listen(
             configuration.EXPRESS_CONFIGURATION.PORT,
             () => {
+                console.clear();
                 console.log(`Servidor inicializado`);
                 console.log(`Servidor escuchando por default en el puerto: '${configuration.EXPRESS_CONFIGURATION.PORT}'`);
             });

@@ -1,14 +1,14 @@
-import { default as ProductsController } from './ProductsController.js';
-import { default as CartsController } from './CartsController.js';
+import { default as ProductController } from './ProductController.js';
+import { default as CartController } from './CartController.js';
 import { default as HandlebarsController } from './HandlebarsController.js';
-import { default as UsersController } from './UsersController.js';
+import { default as UserController } from './UserController.js';
 
 
 export {
-    ProductsController,
-    CartsController,
+    ProductController,
+    CartController,
     HandlebarsController,
-    UsersController
+    UserController
 }
 
 

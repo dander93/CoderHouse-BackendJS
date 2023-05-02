@@ -135,6 +135,9 @@
   border-color: var(--main-color);
   box-shadow: 0px 0px 6px 0.5px var(--main-color); }
 
+.form-floating:not(.form-control:disabled)::before {
+  display: none; }
+
 /*
  *  Modules - Custom - Header
  * */

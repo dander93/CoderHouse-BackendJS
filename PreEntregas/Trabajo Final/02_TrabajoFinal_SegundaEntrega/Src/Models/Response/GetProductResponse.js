@@ -1,7 +1,9 @@
-export default class GetProductResponse {
+import CommonResponse from "./CommonResponse.js";
+
+export default class GetProductResponse extends CommonResponse {
     constructor(status, payload, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink) {
 
-        this.status = status;
+        super(status);
         this.payload = payload;
         this.totalPages = totalPages;
         this.prevPage = prevPage;

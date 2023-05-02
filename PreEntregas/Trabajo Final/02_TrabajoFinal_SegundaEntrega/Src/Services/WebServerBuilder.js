@@ -3,8 +3,12 @@ import { endpointLogger, exceptionHandlerMiddleware } from '../Middlewares/index
 import * as constants from '../Models/Constants/Constants.js';
 import handlebars from 'express-handlebars';
 import validators from '../Helpers/handlebarsHelpers.js';
-import { ProductsController, CartsController, HandlebarsController, UsersController } from '../Controllers/index.js';
+import { ProductController, CartController, HandlebarsController, UserController } from '../Controllers/index.js';
 import ConfigigurationManager from '../Configuration/ConfigurationManager.js';
+import initializePassport from '../Configuration/passport.config.js';
+import passport from 'passport';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 export default class WEbServerBuilder {
 
@@ -44,6 +48,7 @@ export default class WEbServerBuilder {
         this.#addMiddleware(express.static(constants.APP_PUBLIC_PATH));
 
         this.#setupHandlebarss();
+        this.#setupPassport();
     }
 
 
@@ -60,9 +65,27 @@ export default class WEbServerBuilder {
     }
 
     #setupRoutes() {
-        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.PRODUCTS_BASE_ROUTE, ProductsController);
-        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.CARTS_BASE_ROUTE, CartsController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.PRODUCTS_BASE_ROUTE, ProductController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.CARTS_BASE_ROUTE, CartController);
         this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.HANDLEBARS_BASE_ROUTE, HandlebarsController);
-        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.USERS_BASE_ROUTE, UsersController);
+        this.#server.use(this.#configuration.EXPRESS_CONFIGURATION.USERS_BASE_ROUTE, UserController);
+    }
+
+    #setupPassport() {
+
+        this.#server.use(session({
+            store: MongoStore.create({
+                mongoUrl: this.#configuration.MONGOOSE_CONFIGURATION.connectionString,
+                mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+                ttl: 40
+            }),
+            secret: "CoderS3cret",
+            resave: false,
+            saveUninitialized: true
+        }));
+
+        initializePassport();
+        this.#server.use(passport.initialize());
+        this.#server.use(passport.session());
     }
 }

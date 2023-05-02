@@ -1,8 +1,13 @@
 import passport from "passport";
 import passportLocal from 'passport-local';
+import UserManager from '../Services/UserManager.js';
+import CryptoService from '../Services/CryptoService.js';
 
 const localStrategy = passportLocal.Strategy;
 
+//TODO: refactor a class
+
+const userManager = new UserManager();
 
 const initializePassport = () => {
 
@@ -14,20 +19,74 @@ const initializePassport = () => {
 
             try {
 
-                const { first_name, last_name, email, age } = request.body;
+                const { firstName, lastName, birthDate } = request.body;
 
-//TODO: terminar esto
+                const userExists = await userManager.findByEmail(username);
+                if (userExists) {
+                    return done(null, false, { message: "Error al crear el usuario" });
+                }
+
+                const user = await userManager.createUser(
+                    firstName,
+                    lastName,
+                    birthDate,
+                    await CryptoService.passwordToHash(password),
+                    username,
+                    'user');
+
+                return done(null, user);
             }
             catch (error) {
-
+                return done(`ERROR al registrar: ${error}`);
             }
         }
-
     ));
 
+    passport.use('login', new localStrategy(
+
+        { passReqToCallback: true, usernameField: 'email' },
+
+        async (request, username, password, done) => {
+            try {
+                const user = await userManager.findByEmail(username);
+
+                if (!user) {
+                    console.error('El usuario no existe ' + username);
+                    return done(null, false);
+                }
+
+                if (!await CryptoService.comparePassword(password, user.password)) {
+                    console.error(`La password proporcionada por el usuario '${username}' no fue correcta`);
+                    return done(null, false);
+                }
+
+                return done(null, user);
+            }
+            catch (error) {
+                return done(error);
+            }
+        }));
+
+    passport.serializeUser((user, done) => {
+        try {
+
+            done(null, user.email);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    });
+
+    passport.deserializeUser(async (email, done) => {
+        try {
+            const user = await userManager.findByEmail(email);
+            done(null, user);
+        } catch (error) {
+            done(`Error al deserializar el usuairo ${error}`);
+        }
+    });
+
 };
-
-
 
 export {
     initializePassport as default

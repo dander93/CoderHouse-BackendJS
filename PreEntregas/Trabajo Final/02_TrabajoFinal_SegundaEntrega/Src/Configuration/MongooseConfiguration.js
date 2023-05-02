@@ -102,7 +102,7 @@ export default class MongooseConfiguration {
 
     #getConnectionString() {
         try {
-            return `${this.#url}:${this.#port}/${this.#db}`;
+            return `${this.#url}:${this.#port}/${this.#db}?retryWrites=true&w=majority`;
         }
         catch (error) {
             throw error;

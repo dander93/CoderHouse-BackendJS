@@ -14,17 +14,6 @@ function createTableCell(text, classList) {
     return td;
 }
 
-function textToCurrency(text) {
-    return text.toLocaleString('es-AR', {
-        style: 'currency',
-        currency: 'ARS',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-        useGrouping: true,
-        currencyDisplay: 'symbol'
-    });
-}
-
 function getRows(products) {
     return products.map(product => {
         const row = document.createElement('tr');
