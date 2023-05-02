@@ -1,3 +1,4 @@
+import StatusCodes from 'http-status-codes';
 
 const endpointAuthRequired = (request, response, next) => {
     if (request.session &&
@@ -7,6 +8,7 @@ const endpointAuthRequired = (request, response, next) => {
     }
 
     return response
+        .status(StatusCodes.TEMPORARY_REDIRECT)
         .redirect('/login');
 };
 

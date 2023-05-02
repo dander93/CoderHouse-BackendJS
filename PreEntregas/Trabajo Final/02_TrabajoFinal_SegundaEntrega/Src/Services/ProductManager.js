@@ -1,6 +1,6 @@
-import { BusinessException, ValidationException } from "../Models/Exceptions/index.js"
+import { BusinessException, ValidationException } from "../Models/Exceptions/index.js";
 import Product from "../Models/Product.js";
-import DataAccessService from './DataAccessService.js'
+import DataAccessService from './DataAccessService.js';
 import { productSchema } from '../Models/Schemes/index.js';
 import QueryParamsHelper from "../Helpers/QueryParamsHelper.js";
 
@@ -32,7 +32,7 @@ export default class ProductManager {
                 page: page,
                 lean: true,
                 select: '-__v'
-            }
+            };
 
             if (sort) {
                 paginateOptions = {
@@ -40,7 +40,7 @@ export default class ProductManager {
                     sort: {
                         price: sort
                     }
-                }
+                };
             }
 
             return await ProductManager.#repository.paginate(
@@ -139,7 +139,7 @@ export default class ProductManager {
 
     async deleteProduct(id) {
         try {
-            console.log(id)
+            console.log(id);
             if (!id) {
                 throw new BusinessException("El id no puede estar vacío");
             }
@@ -151,6 +151,15 @@ export default class ProductManager {
             }
 
             return found;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    async getAllCategorys() {
+        try {
+            return await ProductManager.#repository.distinct('category');
         }
         catch (error) {
             throw error;

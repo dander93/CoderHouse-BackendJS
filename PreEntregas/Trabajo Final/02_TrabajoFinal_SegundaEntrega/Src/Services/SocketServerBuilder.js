@@ -51,8 +51,6 @@ export default class SocketServerBuilder {
             
                     const products = result.docs;
 
-                    console.log(result)
-
                     SocketServerBuilder.#httpServerInstance.emit(
                         'listProducts',
                         JSON.stringify(products));

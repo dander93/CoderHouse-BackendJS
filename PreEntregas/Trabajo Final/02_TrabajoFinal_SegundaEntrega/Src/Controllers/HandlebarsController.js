@@ -8,10 +8,10 @@ const route = Router();
 
 const productMan = new ProductManager(PRODUCTS_FILE_PATH);
 
-route.get('/', async (request, response, next) => {
+route.get('/', endpointAuthRequired, async (request, response, next) => {
     response
         .status(StatusCodes.TEMPORARY_REDIRECT)
-        .redirect('/login');
+        .redirect('/products');
 });
 
 route.get('/home', endpointAuthRequired, async (request, response, next) => {
@@ -58,7 +58,7 @@ route.get('/realtimeproducts', endpointAuthRequired, (request, response, next) =
                     isSocketView: true,
                     section_title: 'Sockets',
                     section_title_description: 'Vista trabajando con sockets',
-                    socketScriptUrl: 'assets/js/realTimeProducts.js',
+                    socketScriptUrl: 'assets/js/products.realtime.js',
                     user: request.session.user || null
                 });
     }
@@ -86,8 +86,11 @@ route.get('/chat', endpointAuthRequired, (request, response, next) => {
     }
 });
 
-route.get('/products', endpointAuthRequired, (request, response, next) => {
+route.get('/products', endpointAuthRequired, async (request, response, next) => {
     try {
+
+        const categorias = ['TODAS', ... await productMan.getAllCategorys()];
+
         response
             .status(StatusCodes.OK)
             .render('products', {
@@ -97,7 +100,8 @@ route.get('/products', endpointAuthRequired, (request, response, next) => {
                 section_title: 'Productos',
                 section_title_description: 'Lista de productos',
                 script: '/assets/js/products.view.js',
-                user: request.session.user || null
+                user: request.session.user || null,
+                categorys: categorias
             });
     }
     catch (error) {

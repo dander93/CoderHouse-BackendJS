@@ -79,7 +79,7 @@ export default class WEbServerBuilder {
             store: MongoStore.create({
                 mongoUrl: this.#configuration.MONGOOSE_CONFIGURATION.connectionString,
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-                ttl: 150
+                ttl: 999999
             }),
             secret: "CoderS3cret",
             resave: false,

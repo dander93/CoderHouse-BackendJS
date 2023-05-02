@@ -1,7 +1,7 @@
 const form = document.getElementById('formProductos');
 const limitSelect = document.getElementById('select-limit');
 const orderSelect = document.getElementById('select-order');
-
+const categorySelect = document.getElementById('categorys-select');
 
 window.addEventListener("load", async (event) => {
     window.dataLayer = window.dataLayer || {};
@@ -75,7 +75,7 @@ function getRows(products) {
         row.appendChild(createTableCell(stock, ['text-center']));
         row.appendChild(createTableCell(code, ['text-center']));
         row.appendChild(createTableCell(category, ['text-center']));
-        row.appendChild(createTableCell(status ? 'Activo' : 'No activo', ['text-center']));
+        row.appendChild(createTableCell(status ? 'Activo' : 'Inactivo', ['text-center']));
 
         const rowActioncontainer = document.createElement('td');
         rowActioncontainer.classList.add('bg-dark', 'bg-opacity-25', 'd-flex', 'justify-content-center', 'border-0');
@@ -92,9 +92,56 @@ function getRows(products) {
     });
 }
 
+function getPageUrl({ limit, sort, page, status, category }) {
+
+    const baseURl = '/api/products';
+    const params = new URLSearchParams();
+
+    if (limit) {
+        params.set('limit', limit);
+    }
+
+    if (sort) {
+        params.set('sort', sort);
+    }
+
+    if (page) {
+        params.set('page', page);
+    }
+
+    if (status) {
+        params.set('status', status);
+    }
+
+    if (category) {
+        params.set('category', category);
+    }
+
+    return `${baseURl}?${params.toString()}`;
+};
+
+function getStatusSelected() {
+    const radioSelected = [...document.getElementsByName('product-state')].filter(radio => radio.checked)[0];
+
+    return radioSelected.value;
+}
+
+
 async function getPage(page) {
     try {
-        const httpResult = await fetch(`/api/products?limit=${limitSelect.value}&sort=${orderSelect.value}&page=${page || window.dataLayer.currentPage}`,
+
+        const getPageUrlOptions = {
+            limit: limitSelect.value,
+            sort: orderSelect.value,
+            page: page || window.dataLayer.currentPage,
+            status: getStatusSelected(),
+            category: categorySelect.value === 'TODAS' ? undefined : categorySelect.value
+        };
+
+        console.log(getPageUrl(getPageUrlOptions));
+
+        const httpResult = await fetch(getPageUrl(getPageUrlOptions),
+            // const httpResult = await fetch(`/api/products?limit=${limitSelect.value}&sort=${orderSelect.value}&page=${page || window.dataLayer.currentPage}`,
             {
                 method: 'GET',
             });

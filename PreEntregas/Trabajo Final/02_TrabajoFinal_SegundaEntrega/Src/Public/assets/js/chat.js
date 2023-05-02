@@ -9,6 +9,7 @@
         } while (!window.dataLayer.user);
 
         const usrIput = document.getElementById('userInput');
+        //FIXME: cambiar esto a una cookie
         usrIput.value = window.dataLayer.user;
         usrIput.parentNode.classList.remove('d-none');
     };
