@@ -1,0 +1,7 @@
+const EXPRESS_PREV_KEY_NAME = 'express';
+const EXPRESS_PORT_KEY = `${EXPRESS_PREV_KEY_NAME}_port`;
+
+export {
+    EXPRESS_PREV_KEY_NAME,
+    EXPRESS_PORT_KEY,
+}; 

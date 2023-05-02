@@ -1,0 +1,85 @@
+<div id="register-container">
+    <div class="bg-dark bg-opacity-25 rounded border border-warning text-shadow-dark shadow">
+        <form action="#" id="form-register" class="p-4 floating-labels">
+
+            <fieldset id="fullname-section" class="row">
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="name-input" type="text" name="firstName" class="form-control" placeholder="Nombre"
+                            autofocus required>
+                        <label for="name-input">Nombre</label>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="lastName-input" type="text" name="lastName" class="form-control"
+                            placeholder="Apellido" required>
+                        <label for="lastName-input">Apellido</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="age-section" class="row mt-2 d-none">
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="birth-input" type="date" name="birthDate" class="form-control" placeholder="Edad"
+                            value="2000-01-01" min="1933-01-01" max="2023-05-02" required>
+                        <label for="birth-input">Fecha de nacimiento</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="mail-section" class="row mt-2 d-none">
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="mail-input" type="email" name="email" class="form-control" placeholder="Email"
+                            required>
+                        <label for="mail-input">Email</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="password-primary-section" class="row mt-2 d-none">
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="password-primary-input" name="password" type="password" class="form-control"
+                            placeholder="Password" required>
+                        <label for="password-primary-input">Password</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="password-secondary-section" class="row mt-2 d-none">
+                <div class="col">
+                    <div class="form-floating">
+                        <input id="password-secondary-input" type="password" class="form-control" placeholder="Password"
+                            required>
+                        <label for="password-secondary-input">Repita su password</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div id="buttons-section" class="row mt-4">
+                <div class="col d-flex justify-content-center">
+                    <button type="reset" class="btn btn-outline-warning col-3">Reiniciar</button>
+                    <button id="register-user-btn" type="submit" class="btn btn-warning col-3 ms-2"
+                        disabled>Enviar</button>
+                </div>
+            </div>
+            <p class="text-center text-white mt-3">¿Ya tienes cuenta? <a href="/login"
+                    class="link-warning">¡Conectate!</a></p>
+        </form>
+    </div>
+
+    <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong id="toast-title" class="me-auto"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div id="toast-body" class="toast-body">
+            </div>
+        </div>
+    </div>
+</div>
