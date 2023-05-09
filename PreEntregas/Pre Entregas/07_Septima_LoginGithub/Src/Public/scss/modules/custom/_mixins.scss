@@ -1,0 +1,8 @@
+/*
+ *  Modules - Custom - Mixins
+ * */
+
+@mixin mixin-footer-links-tyle-active($color, $text-decoration) {
+    color: $color;
+    text-decoration: $text-decoration;
+}
