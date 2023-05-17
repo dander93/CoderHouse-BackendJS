@@ -1,0 +1,19 @@
+/*
+*  Modules - Bootstrap - Header
+* */
+
+.navbar {
+    --bs-navbar-color: var(--main-color);
+    justify-content: flex-end;
+}
+
+.nav-link:hover {
+    text-shadow: 1px 1px 3px var(--main-color);
+    border-bottom: 1px solid var(--main-color);
+    color: var(--main-color);
+    border-bottom: 1px dotted;
+}
+
+.nav-item:not(.active):hover {
+    text-shadow: 1px 1px 3px var(--main-color);
+}
