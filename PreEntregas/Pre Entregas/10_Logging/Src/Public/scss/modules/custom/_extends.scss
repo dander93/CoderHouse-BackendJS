@@ -1,0 +1,18 @@
+/*
+ *  Modules - Custom - Extends
+ * */
+
+%link-decoration-none {
+    text-decoration: none;
+}
+
+%footer-links-style {
+    color: var(--darken-color);
+    @extend %link-decoration-none;
+}
+
+%footer-links-tyle-active {
+    color: var(--main-color);
+    font-weight: 500;
+    @extend %link-decoration-none;
+}
