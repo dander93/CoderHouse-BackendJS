@@ -1,0 +1,87 @@
+paths:
+  /api/carts/{id}:
+    put:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "el id del carrito a actualizar"
+        - in: body
+          name: products
+          required: true
+          description: "los productos a actualizar"
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                productID:
+                  type: string
+                quantity:
+                  type: number
+      summary: "actualiza el stock de un carrito"
+      responses:
+        "200":
+          description: "Estado previo a modificar el carrito"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/carts/{id-carrito}/product/{id-producto}:
+    put:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id-carrito
+          required: true
+          description: "el id del carrito al que actualizar el stock del producto"
+        - in: path
+          name: id-producto
+          required: true
+          description: "el id del producto a actualizar"
+        - in: body
+          name: quantity
+          required: true
+          description: "el nuevo stock del producto en el carrito"
+          schema:
+            type: object
+            properties:
+              quantity:
+                type: number
+      summary: "actualiza el stock de un producto en particular del carrito"
+      responses:
+        "200":
+          description: "el estado del producto actualizado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

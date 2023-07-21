@@ -1,0 +1,19 @@
+#error
+components:
+  schemas:
+    error:
+      type: object
+      required:
+        - Message
+      properties:
+        Code:
+          type: string
+          description: "el codigo del error"
+        Message:
+          type: string
+          description: "el mensaje de error"
+        Errors:
+          type: array
+          items:
+            type: string
+            description: "errores"

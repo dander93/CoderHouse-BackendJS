@@ -1,0 +1,67 @@
+paths:
+  /api/carts/{id-carrito}/product/{id-producto}:
+    delete:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id-carrito
+          required: true
+          description: "el id del carrito al que quitar el producto"
+        - in: path
+          name: id-producto
+          required: true
+          description: "el id del producto a quitar"
+      summary: "quita producto por id al carrito según id del carrito"
+      responses:
+        "200":
+          description: "Estado previo a quitar el producto del carrito"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/carts/{id-carrito}:
+    delete:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id-carrito
+          required: true
+          description: "el id del carrito al que borrar todo su contenido"
+      summary: "quita todos los productos de un carrito"
+      responses:
+        "200":
+          description: "Estado previo a quitar el producto del carrito"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

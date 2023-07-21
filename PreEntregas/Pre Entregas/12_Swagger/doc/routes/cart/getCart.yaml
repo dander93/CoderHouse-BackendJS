@@ -1,0 +1,32 @@
+paths:
+  /api/carts/{id}:
+    get:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "El id del carrito"
+      summary: "Obtiene el contenido de un carrito por su id"
+      responses:
+        "200":
+          description: "el contenido del carrito correspondiente al id"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        "400":
+          description: "error de validacion"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

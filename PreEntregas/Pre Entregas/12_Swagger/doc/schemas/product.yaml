@@ -1,0 +1,48 @@
+components:
+  schemas:
+    product:
+      type: object
+      required:
+        - _id
+        - title
+        - description
+        - price
+        - thumbnails
+        - stock
+        - code
+        - category
+        - status
+        - id
+      properties:
+        _id:
+          type: string
+          description: "el id autogenerado"
+        title:
+          type: string
+          description: "el nombre del producto"
+        description:
+          type: string
+          description: "la descripcion del producto"
+        price:
+          type: number
+          description: "el precio del producto"
+        thumbnails:
+          type: array
+          items:
+            type: string
+          description: "las imagenes del producto"
+        stock:
+          type: number
+          description: "el stock del producto"
+        code:
+          type: string
+          description: "el codigo del producto"
+        category:
+          type: string
+          description: "la categoria del producto"
+        status:
+          type: boolean
+          description: "el estado del producto"
+        id:
+          type: string
+          description: "el id autogenerado"

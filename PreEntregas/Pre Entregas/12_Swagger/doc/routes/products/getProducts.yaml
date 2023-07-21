@@ -1,0 +1,142 @@
+paths:
+  /api/products:
+    get:
+      summary: "Obtiene todos los productos"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "lista de productos"
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - payload
+                  - totalPages
+                  - prevPage
+                  - nextPage
+                  - page
+                  - hasPrevPage
+                  - hasNextPage
+                  - prevLink
+                  - nextLink
+                properties:
+                  status:
+                    type: string
+                    enum: [success, error]
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/product"
+                  totalPages:
+                    type: number
+                  prevPage:
+                    type: string
+                  nextPage:
+                    type: string
+                  page:
+                    type: number
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                  nextLink:
+                    type: string
+        "400":
+          description: "error de validacion"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/products/mockingproducts:
+    get:
+      summary: "Lista una lista de productos mockeados"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "Lista de productos mockeados"
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - payload
+                  - totalPages
+                  - prevPage
+                  - nextPage
+                  - page
+                  - hasPrevPage
+                  - hasNextPage
+                  - prevLink
+                  - nextLink
+                properties:
+                  status:
+                    type: string
+                    enum: [success, error]
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/product"
+                  totalPages:
+                    type: number
+                  prevPage:
+                    type: string
+                  nextPage:
+                    type: string
+                  page:
+                    type: number
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                  nextLink:
+                    type: string
+  /api/products/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "el id del producto"
+      summary: "Obtiene un producto por su id"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "El producto que se corresponde con el id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "400":
+          description: "error de validacion"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: "producto no encontrado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
