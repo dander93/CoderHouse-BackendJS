@@ -1,0 +1,14 @@
+/*
+ * Modules - Bootstrap - Buttons
+ * */
+
+.btn-warning {
+    --bs-btn-bg: var(--main-color);
+    --bs-btn-border-color: var(--main-color);
+}
+
+.btn-outline-warning {
+    --bs-btn-color: var(--main-color);
+    --bs-btn-disabled-color: var(--main-color);
+    --bs-btn-disabled-border-color: var(--main-color);
+}

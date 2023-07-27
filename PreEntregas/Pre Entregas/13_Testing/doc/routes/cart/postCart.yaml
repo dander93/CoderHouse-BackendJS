@@ -1,0 +1,123 @@
+paths:
+  /api/carts/{id}/purchase:
+    post:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: "el id del carrito a finalizar la compra"
+        - in: body
+          name: email
+          required: true
+          description: "el mail al que se le creara el ticket"
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+      summary: "finaliza el proceso de comprar y genera un ticket"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: "el id del ticket"
+                  purchase_datetime:
+                    type: string
+                    description: "la fecha en que se genero el ticket"
+                  amount:
+                    type: number
+                    description: "el total de la compra"
+                  purchaser:
+                    type: string
+                    description: "el mail del comprador"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: "carrito no encontrado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/carts/:
+    post:
+      tags:
+        - Cart
+      summary: "Crea un carrito"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "el estado de la creación"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/carts/{id-carrito}/product/{id-producto}:
+    post:
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: id-carrito
+          required: true
+          description: "el id del carrito al que agregar el producto"
+        - in: path
+          name: id-producto
+          required: true
+          description: "el id del producto a agregar"
+      summary: "agrega producto por id al carrito según id del carrito"
+      responses:
+        "200":
+          description: "mensaje de agregado del producto al carrito"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "el estado de la creación"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "404":
+          description: "carrito o producto no encontrado"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

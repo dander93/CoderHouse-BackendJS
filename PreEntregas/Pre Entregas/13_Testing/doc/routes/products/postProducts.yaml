@@ -1,0 +1,70 @@
+paths:
+  /api/products/:
+    post:
+      summary: "crea un producto"
+      tags:
+        - Products
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: product
+          description: "el producto a crear"
+          required: true
+          schema:
+            type: object
+            required:
+              - title
+              - description
+              - price
+              - thumbnails
+              - stock
+              - code
+              - category
+              - status
+            properties:
+              title:
+                type: string
+                description: "el nombre del producto"
+              description:
+                type: string
+                description: "la descripcion del producto"
+              price:
+                type: number
+                description: "el precio del producto"
+              thumbnails:
+                type: array
+                items:
+                  type: string
+                description: "las imagenes del producto"
+              stock:
+                type: number
+                description: "el stock del producto"
+              code:
+                type: string
+                description: "el codigo del producto"
+              category:
+                type: string
+                description: "la categoria del producto"
+              status:
+                type: boolean
+                description: "el estado del producto"
+      responses:
+        "201":
+          description: "El producto que se corresponde con el id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        "400":
+          description: "Error de validación"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        "500":
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
