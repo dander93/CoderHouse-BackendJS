@@ -1,0 +1,54 @@
+paths:
+  /api/courses:
+    get:
+      tags:
+        - courses
+      summary: "obtiene la lista de cursos"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/course"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+    post:
+      tags:
+        - courses
+      summary: "crea un curso"
+      parameters:
+        - in: body
+          required: true
+          name: course
+          description: "el curso a crear"
+          schema:
+            type: object
+            required:
+              - title
+              - description
+              - teacherName
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              teacherName:
+                type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/course"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

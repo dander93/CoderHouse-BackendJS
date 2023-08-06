@@ -1,0 +1,25 @@
+#course
+components:
+  schemas:
+    course:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        teacherName:
+          type: string
+        students:
+          type: array
+          items:
+            type: object
+            properties:
+              student:
+                type: string
+              _id:
+                type: string
+        __v:
+          type: number

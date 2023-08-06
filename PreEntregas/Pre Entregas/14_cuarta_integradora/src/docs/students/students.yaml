@@ -1,0 +1,72 @@
+paths:
+  /api/students:
+    get:
+      tags:
+        - students
+      summary: "devuelve la lista de estudiantes"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/student"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+    post:
+      tags:
+        - students
+      summary: "crea un estudiante"
+      parameters:
+        - in: body
+          required: true
+          name: student
+          descripcion: "el estudiante a crear"
+          schema:
+            type: object
+            required:
+              - name
+              - lastName
+              - email
+              - age
+              - password
+              - role
+              - courses
+            properties:
+              name:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+              age:
+                type: string
+              password:
+                type: string
+              role:
+                type: string
+                enum: [user,admin]
+              courses:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    course:
+                      type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/student"
+        "500":
+          description: "error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"

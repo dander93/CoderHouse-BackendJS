@@ -1,0 +1,12 @@
+#error
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: "mensaje del error"
+        message:
+          type: string
+          description: "descripcion del error"
